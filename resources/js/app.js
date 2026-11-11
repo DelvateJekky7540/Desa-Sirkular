@@ -173,3 +173,54 @@ document.querySelectorAll('[data-form-timbang]').forEach((form) => {
         }
     });
 });
+
+const kalkulatorWarga = document.querySelector('[data-estimasi-warga]');
+
+if (kalkulatorWarga) {
+    const jenis = kalkulatorWarga.querySelector('[data-jenis-sampah]');
+    const berat = kalkulatorWarga.querySelector('[data-berat]');
+    const hargaTerpilih = kalkulatorWarga.querySelector('[data-harga-terpilih]');
+    const total = kalkulatorWarga.querySelector('[data-estimasi-angka]');
+    const rincian = kalkulatorWarga.querySelector('[data-rincian-estimasi]');
+    let jedaHitung;
+
+    const hitung = () => {
+        const opsi = jenis?.selectedOptions?.[0];
+        const harga = angkaHarga(opsi?.dataset.harga ?? 0);
+        const satuan = opsi?.dataset.satuan || 'kg';
+        const nilaiBerat = angkaBerat(berat?.value);
+        const nilai = nilaiBerat * harga;
+        const adaJenis = Boolean(opsi?.value);
+        const adaBerat = nilaiBerat > 0;
+
+        if (hargaTerpilih) {
+            hargaTerpilih.textContent = adaJenis
+                ? `Harga acuan: ${rupiah(harga)}/${satuan}`
+                : 'Pilih jenis untuk melihat harga acuan.';
+        }
+
+        if (total) {
+            total.textContent = rupiah(nilai);
+            total.dataset.aktif = adaJenis && adaBerat ? 'true' : 'false';
+        }
+
+        if (rincian) {
+            if (!adaJenis) {
+                rincian.textContent = 'Pilih jenis sampah dulu.';
+            } else if (!adaBerat) {
+                rincian.textContent = 'Isi berat untuk melihat perkiraan.';
+            } else {
+                rincian.textContent = `${beratTerbaca(nilaiBerat)} ${satuan} x ${rupiah(harga)}/${satuan}`;
+            }
+        }
+    };
+
+    jenis?.addEventListener('change', hitung);
+
+    berat?.addEventListener('input', () => {
+        clearTimeout(jedaHitung);
+        jedaHitung = setTimeout(hitung, 150);
+    });
+
+    hitung();
+}

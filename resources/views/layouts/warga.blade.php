@@ -23,6 +23,7 @@
     </header>
 
     <main id="konten" tabindex="-1" class="mx-auto w-full max-w-[560px] px-4 pb-[calc(6rem_+_env(safe-area-inset-bottom))] pt-6 md:pt-8">
+        @include('partials.flash')
         @yield('content')
     </main>
 

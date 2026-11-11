@@ -224,3 +224,31 @@ if (kalkulatorWarga) {
 
     hitung();
 }
+
+const formPengajuan = document.querySelector('[data-pengajuan-form]');
+
+if (formPengajuan) {
+    const tombol = formPengajuan.querySelector('[data-submit]');
+    const label = formPengajuan.querySelector('[data-submit-label]');
+    const status = formPengajuan.querySelector('[data-status-pengajuan]');
+
+    formPengajuan.addEventListener('submit', () => {
+        if (!formPengajuan.checkValidity()) {
+            return;
+        }
+
+        formPengajuan.setAttribute('aria-busy', 'true');
+
+        if (tombol) {
+            tombol.disabled = true;
+        }
+
+        if (label) {
+            label.textContent = 'Mengirim pengajuan...';
+        }
+
+        if (status) {
+            status.textContent = 'Pengajuan sedang dikirim.';
+        }
+    });
+}

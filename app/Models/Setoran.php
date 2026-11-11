@@ -13,6 +13,8 @@ class Setoran extends Model
 
     public const STATUS_MENUNGGU = 'Menunggu Timbang';
 
+    public const STATUS_SUDAH_DITIMBANG = 'Sudah ditimbang';
+
     protected $table = 'setoran';
 
     protected $fillable = [

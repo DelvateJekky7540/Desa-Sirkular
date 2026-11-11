@@ -24,6 +24,9 @@
             <p class="mt-2 max-w-[64ch] text-[15px] leading-[1.6] text-muted">
                 Timbang sampah warga, isi harga per kilogram, lalu simpan. Setoran baru masuk antrean Menunggu Timbang.
             </p>
+            <p class="mt-1 text-[13px] leading-[1.4] text-muted">
+                <a href="{{ route('bank.penimbangan') }}" class="font-medium text-forest underline underline-offset-4 hover:decoration-2">Buka antrean penimbangan</a>
+            </p>
         </div>
         <p class="text-[13px] leading-[1.4] text-muted">
             {{ now()->locale('id')->translatedFormat('l, j F Y') }}

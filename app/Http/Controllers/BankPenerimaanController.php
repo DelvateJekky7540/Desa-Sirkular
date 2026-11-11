@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankSampah;
+use App\Models\JenisSampah;
+use App\Models\Masyarakat;
 use App\Models\Setoran;
 use App\Models\User;
 use App\Support\Angka;
-use App\Support\JenisSampah;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +19,14 @@ class BankPenerimaanController extends Controller
 {
     public function index(): View
     {
+        $bankAktif = BankSampah::query()->aktif()->orderBy('id')->first();
         $riwayatError = null;
 
         try {
             $riwayat = Setoran::query()
-                ->with(['user', 'detailSampah'])
-                ->whereDate('tanggal', now()->toDateString())
+                ->with(['masyarakat.user', 'detailSampah.jenisSampah'])
+                ->when($bankAktif !== null, fn ($query) => $query->where('bank_sampah_id', $bankAktif->id))
+                ->whereDate('tanggal_setoran', now()->toDateString())
                 ->latest('id')
                 ->get();
         } catch (Throwable $exception) {
@@ -33,8 +37,13 @@ class BankPenerimaanController extends Controller
         }
 
         return view('bank.penerimaan', [
-            'daftarWarga' => User::query()->orderBy('name')->get(['id', 'name']),
-            'daftarJenis' => JenisSampah::semua(),
+            'bankAktif' => $bankAktif,
+            'daftarWarga' => Masyarakat::query()
+                ->with('user')
+                ->whereHas('user', fn ($query) => $query->where('role', User::ROLE_MASYARAKAT))
+                ->orderBy('kode_nasabah')
+                ->get(),
+            'daftarJenis' => JenisSampah::query()->aktif()->orderBy('nama_sampah')->get(),
             'riwayat' => $riwayat->take(5),
             'jumlahRiwayat' => $riwayat->count(),
             'riwayatError' => $riwayatError,
@@ -48,22 +57,30 @@ class BankPenerimaanController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $bankAktif = BankSampah::query()->aktif()->orderBy('id')->first();
+
+        if ($bankAktif === null) {
+            return redirect()
+                ->route('bank.penerimaan')
+                ->withErrors(['bank_sampah_id' => 'Bank sampah aktif belum tersedia. Jalankan seeder dulu sebelum mencatat setoran.']);
+        }
+
         $request->merge([
             'berat' => $this->angkaDesimal($request->input('berat')),
             'harga_per_kg' => $this->angkaDesimal($request->input('harga_per_kg'), true),
         ]);
 
         $data = $request->validate([
-            'user_id' => ['required', 'integer', Rule::exists('users', 'id')],
-            'jenis_sampah' => ['required', 'string', Rule::in(JenisSampah::nama())],
+            'masyarakat_id' => ['required', 'integer', Rule::exists('masyarakat', 'id')],
+            'jenis_sampah_id' => ['required', 'integer', Rule::exists('jenis_sampah', 'id')->where('status', JenisSampah::STATUS_AKTIF)],
             'berat' => ['required', 'numeric', 'min:0.1', 'max:5000'],
             'harga_per_kg' => ['required', 'numeric', 'min:0', 'max:1000000'],
             'catatan' => ['nullable', 'string', 'max:500'],
         ], [
-            'user_id.required' => 'Pilih warga yang menyetor sampah.',
-            'user_id.exists' => 'Warga yang dipilih tidak ditemukan.',
-            'jenis_sampah.required' => 'Pilih jenis sampah yang ditimbang.',
-            'jenis_sampah.in' => 'Jenis sampah belum terdaftar di harga acuan.',
+            'masyarakat_id.required' => 'Pilih warga yang menyetor sampah.',
+            'masyarakat_id.exists' => 'Warga yang dipilih tidak ditemukan.',
+            'jenis_sampah_id.required' => 'Pilih jenis sampah yang ditimbang.',
+            'jenis_sampah_id.exists' => 'Jenis sampah belum terdaftar atau sudah nonaktif.',
             'berat.required' => 'Berat sampah belum diisi. Isi dulu sebelum menyimpan.',
             'berat.numeric' => 'Berat harus berupa angka, contoh 12,5.',
             'berat.min' => 'Berat minimal 0,1 kg.',
@@ -78,10 +95,13 @@ class BankPenerimaanController extends Controller
         $harga = (float) $data['harga_per_kg'];
         $subtotal = round($berat * $harga, 2);
 
-        $setoran = DB::transaction(function () use ($data, $berat, $harga, $subtotal) {
+        $setoran = DB::transaction(function () use ($bankAktif, $data, $berat, $harga, $subtotal) {
             $setoran = Setoran::query()->create([
-                'user_id' => $data['user_id'],
-                'tanggal' => now()->toDateString(),
+                'kode_setoran' => Setoran::kodeBerikutnya(),
+                'masyarakat_id' => $data['masyarakat_id'],
+                'bank_sampah_id' => $bankAktif->id,
+                'petugas_id' => null,
+                'tanggal_setoran' => now()->toDateString(),
                 'total_berat' => $berat,
                 'total_nilai' => $subtotal,
                 'status' => Setoran::STATUS_MENUNGGU,
@@ -89,7 +109,7 @@ class BankPenerimaanController extends Controller
             ]);
 
             $setoran->detailSampah()->create([
-                'jenis_sampah' => $data['jenis_sampah'],
+                'jenis_sampah_id' => $data['jenis_sampah_id'],
                 'berat' => $berat,
                 'harga_per_kg' => $harga,
                 'subtotal' => $subtotal,
@@ -98,17 +118,17 @@ class BankPenerimaanController extends Controller
             return $setoran;
         });
 
-        $setoran->load('user');
+        $setoran->load('masyarakat.user', 'detailSampah.jenisSampah');
 
         return redirect()
             ->route('bank.penerimaan')
             ->with('status', sprintf(
                 'Setoran %s tercatat: %s %s senilai %s. Status: %s.',
-                $setoran->user->name,
+                $setoran->masyarakat?->user?->nama ?? 'warga',
                 Angka::kg($berat),
-                $data['jenis_sampah'],
+                $setoran->detailSampah->first()?->jenisSampah?->nama_sampah ?? 'sampah',
                 Angka::rupiah($subtotal),
-                Setoran::STATUS_MENUNGGU,
+                $setoran->labelStatus(),
             ));
     }
 

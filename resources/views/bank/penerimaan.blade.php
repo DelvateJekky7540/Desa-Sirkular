@@ -1,7 +1,7 @@
 @extends('layouts.bank')
 
-@section('title', 'Catat setoran sampah, Bank Sampah Sumber Rejeki')
-@section('description', 'Form penerimaan sampah untuk Pengelola Bank Sampah Sumber Rejeki, Desa Sukamaju.')
+@section('title', 'Catat setoran sampah, '.($bankAktif?->nama_bank ?? 'Bank Sampah'))
+@section('description', 'Form penerimaan sampah untuk Pengelola '.($bankAktif?->nama_bank ?? 'Bank Sampah').', Desa Sukamaju.')
 
 @use('App\Support\Angka')
 
@@ -22,7 +22,7 @@
         <div>
             <h1 class="font-display text-[26px] font-medium leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Catat setoran sampah</h1>
             <p class="mt-2 max-w-[64ch] text-[15px] leading-[1.6] text-muted">
-                Timbang sampah warga, isi harga per kilogram, lalu simpan. Setoran baru masuk antrean Menunggu Timbang.
+                Timbang sampah warga, isi harga per kilogram, lalu simpan. Setoran baru masuk antrean menunggu timbang.
             </p>
             <p class="mt-1 text-[13px] leading-[1.4] text-muted">
                 <a href="{{ route('bank.penimbangan') }}" class="font-medium text-forest underline underline-offset-4 hover:decoration-2">Buka antrean penimbangan</a>
@@ -49,31 +49,38 @@
                     </div>
                 @endif
 
+                @if ($bankAktif === null)
+                    <div role="alert" class="mt-4 border border-stone border-l-[3px] border-l-mustard bg-bone px-4 py-3">
+                        <p class="text-[14px] font-medium leading-[1.5] text-ink">Bank sampah aktif belum tersedia.</p>
+                        <p class="mt-1 text-[13px] leading-[1.5] text-muted">Jalankan seeder dulu, lalu muat ulang halaman ini.</p>
+                    </div>
+                @endif
+
                 <form method="POST" action="{{ route('bank.penerimaan.store') }}" class="mt-4 space-y-3" data-setoran-form>
                     @csrf
 
                     <div>
-                        <label for="user_id" class="block text-[13px] font-medium leading-[1.4] text-ink">Warga</label>
+                        <label for="masyarakat_id" class="block text-[13px] font-medium leading-[1.4] text-ink">Warga</label>
                         @if ($daftarWarga->isEmpty())
                             <p class="mt-2 border border-stone bg-bone px-3 py-2 text-[13px] leading-[1.5] text-muted">
                                 Belum ada data warga. Tambahkan warga dulu, lalu kembali ke halaman ini.
                             </p>
-                            <input type="hidden" name="user_id" value="">
+                            <input type="hidden" name="masyarakat_id" value="">
                         @else
                             <select
-                                id="user_id"
-                                name="user_id"
+                                id="masyarakat_id"
+                                name="masyarakat_id"
                                 required
-                                @error('user_id') aria-invalid="true" aria-describedby="error-user_id" @enderror
-                                class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('user_id') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
+                                @error('masyarakat_id') aria-invalid="true" aria-describedby="error-masyarakat_id" @enderror
+                                class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('masyarakat_id') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
                             >
-                                <option value="" disabled @selected(old('user_id') === null)>Pilih nama warga</option>
+                                <option value="" disabled @selected(old('masyarakat_id') === null)>Pilih nama warga</option>
                                 @foreach ($daftarWarga as $warga)
-                                    <option value="{{ $warga->id }}" @selected((string) old('user_id') === (string) $warga->id)>{{ $warga->name }}</option>
+                                    <option value="{{ $warga->id }}" @selected((string) old('masyarakat_id') === (string) $warga->id)>{{ $warga->user?->nama }} ({{ $warga->kode_nasabah }})</option>
                                 @endforeach
                             </select>
-                            @error('user_id')
-                                <p id="error-user_id" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
+                            @error('masyarakat_id')
+                                <p id="error-masyarakat_id" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
                             @enderror
                         @endif
                     </div>
@@ -83,18 +90,18 @@
                             <label for="jenis_sampah" class="block text-[13px] font-medium leading-[1.4] text-ink">Jenis sampah</label>
                             <select
                                 id="jenis_sampah"
-                                name="jenis_sampah"
+                                name="jenis_sampah_id"
                                 required
-                                @error('jenis_sampah') aria-invalid="true" aria-describedby="error-jenis_sampah" @enderror
-                                class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('jenis_sampah') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
+                                @error('jenis_sampah_id') aria-invalid="true" aria-describedby="error-jenis_sampah_id" @enderror
+                                class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('jenis_sampah_id') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
                             >
-                                <option value="" disabled @selected(old('jenis_sampah') === null)>Pilih jenis</option>
-                                @foreach ($daftarJenis as $nama => $harga)
-                                    <option value="{{ $nama }}" data-harga="{{ $harga }}" @selected(old('jenis_sampah') === $nama)>{{ $nama }}</option>
+                                <option value="" disabled @selected(old('jenis_sampah_id') === null)>Pilih jenis</option>
+                                @foreach ($daftarJenis as $jenis)
+                                    <option value="{{ $jenis->id }}" data-harga="{{ (int) $jenis->harga_per_kg }}" @selected((string) old('jenis_sampah_id') === (string) $jenis->id)>{{ $jenis->nama_sampah }}, {{ $jenis->kategori }}</option>
                                 @endforeach
                             </select>
-                            @error('jenis_sampah')
-                                <p id="error-jenis_sampah" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
+                            @error('jenis_sampah_id')
+                                <p id="error-jenis_sampah_id" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -172,13 +179,13 @@
                         <button
                             type="submit"
                             data-submit
-                            @disabled($daftarWarga->isEmpty())
+                            @disabled($daftarWarga->isEmpty() || $daftarJenis->isEmpty() || $bankAktif === null)
                             class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60 md:w-auto"
                         >
                             <span data-submit-label>Catat setoran</span>
                         </button>
                         <p id="status-simpan" role="status" class="sr-only"></p>
-                        <p class="mt-2 text-[12px] leading-[1.4] text-muted">Status awal setiap setoran: Menunggu Timbang.</p>
+                        <p class="mt-2 text-[12px] leading-[1.4] text-muted">Status awal setiap setoran: menunggu timbang.</p>
                     </div>
                 </form>
             </div>
@@ -250,10 +257,10 @@
                                         @php $detail = $setoran->detailSampah->first(); @endphp
                                         <tr class="h-11 border-b border-stone align-middle hover:bg-[#F0EDE4]">
                                             <td class="py-2 pr-2">
-                                                <span class="block text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->user?->name ?? 'Warga' }}</span>
+                                                <span class="block text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</span>
                                                 <span class="block font-mono text-[11px] leading-[1.4] text-muted">{{ $setoran->created_at->format('H:i') }}</span>
                                             </td>
-                                            <td class="py-2 pr-2 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenis_sampah ?? 'Campuran' }}</td>
+                                            <td class="py-2 pr-2 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</td>
                                             <td class="py-2 pl-2 text-right font-mono text-[14px] text-ink">{{ Angka::kg($setoran->total_berat) }}</td>
                                             <td class="py-2 pl-2 text-right font-mono text-[14px] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</td>
                                         </tr>
@@ -267,11 +274,11 @@
                                 @php $detail = $setoran->detailSampah->first(); @endphp
                                 <li class="border-b border-stone py-3">
                                     <div class="flex items-baseline justify-between gap-3">
-                                        <p class="text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->user?->name ?? 'Warga' }}</p>
+                                        <p class="text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
                                         <p class="font-mono text-[14px] leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</p>
                                     </div>
                                     <div class="mt-0.5 flex items-baseline justify-between gap-3 text-[12px] leading-[1.4] text-muted">
-                                        <p>{{ $setoran->created_at->format('H:i') }}, {{ $detail?->jenis_sampah ?? 'Campuran' }}</p>
+                                        <p>{{ $setoran->created_at->format('H:i') }}, {{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</p>
                                         <p class="font-mono text-[14px] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</p>
                                     </div>
                                 </li>

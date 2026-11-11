@@ -1,7 +1,7 @@
 @extends('layouts.bank')
 
-@section('title', 'Antrean penimbangan, Bank Sampah Sumber Rejeki')
-@section('description', 'Antrean setoran sampah yang menunggu ditimbang untuk Pengelola Bank Sampah Sumber Rejeki, Desa Sukamaju.')
+@section('title', 'Antrean penimbangan, '.($bankAktif?->nama_bank ?? 'Bank Sampah'))
+@section('description', 'Antrean setoran sampah yang menunggu ditimbang untuk Pengelola '.($bankAktif?->nama_bank ?? 'Bank Sampah').', Desa Sukamaju.')
 
 @use('App\Support\Angka')
 
@@ -108,8 +108,8 @@
                                 @endif
                                 {{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}
                             </td>
-                            <td class="py-2 pr-3 text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->user?->name ?? 'Warga' }}</td>
-                            <td class="py-2 pr-3 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenis_sampah ?? 'Campuran' }}</td>
+                            <td class="py-2 pr-3 text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</td>
+                            <td class="py-2 pr-3 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</td>
                             <td class="py-2 pl-3 text-right font-mono text-[14px] leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</td>
                             <td class="py-2 pl-3 text-right font-mono text-[14px] leading-[1.4] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</td>
                             <td class="py-2 pl-3 text-right">
@@ -139,11 +139,11 @@
                         <p class="text-[12px] leading-[1.4] text-muted">Menunggu lebih dari sehari</p>
                     @endif
                     <div class="flex items-baseline justify-between gap-3">
-                        <p class="text-[15px] font-medium leading-[1.4] text-ink">{{ $setoran->user?->name ?? 'Warga' }}</p>
+                        <p class="text-[15px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
                         <p class="font-mono text-[15px] leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</p>
                     </div>
                     <div class="mt-0.5 flex items-baseline justify-between gap-3 text-[12px] leading-[1.4] text-muted">
-                        <p>{{ $detail?->jenis_sampah ?? 'Campuran' }}, {{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}</p>
+                        <p>{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}, {{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}</p>
                         <p class="font-mono text-[14px] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</p>
                     </div>
                     <button

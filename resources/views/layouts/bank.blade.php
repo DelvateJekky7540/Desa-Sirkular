@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Bank Sampah Sumber Rejeki, Desa Sirkular')</title>
-    <meta name="description" content="@yield('description', 'Pencatatan setoran sampah Bank Sampah Sumber Rejeki, Desa Sukamaju.')">
+    <title>@yield('title', 'Catatan bank sampah, Desa Sirkular')</title>
+    <meta name="description" content="@yield('description', 'Pencatatan setoran sampah bank sampah Desa Sukamaju.')">
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -18,7 +18,7 @@
             <span class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</span>
             <p class="w-full text-left text-[12px] leading-[1.4] text-muted md:w-auto md:text-right">
                 <span class="block font-medium text-ink">Pengelola Bank Sampah</span>
-                Bank Sampah Sumber Rejeki, Desa Sukamaju
+                {{ $bankAktif?->nama_bank ?? 'Bank Sampah Sumber Rejeki' }}, Desa Sukamaju
             </p>
         </div>
     </header>

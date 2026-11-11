@@ -2,7 +2,7 @@
 
 @php
     $detail = $setoran->detailSampah->first();
-    $jenis = $detail?->jenis_sampah ?? 'Campuran';
+    $jenis = $detail?->jenisSampah?->nama_sampah ?? 'Campuran';
     $beratTercatat = (float) $setoran->total_berat;
     $hargaAwal = (float) ($detail?->harga_per_kg ?? 0);
     $gagal = $gagalId !== null && (int) $gagalId === $setoran->id;
@@ -19,7 +19,7 @@
         <h2 id="judul-timbang-{{ $setoran->id }}" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">
             Timbang setoran
         </h2>
-        <p class="mt-1 text-[15px] font-medium leading-[1.5] text-ink">{{ $setoran->user?->name ?? 'Warga' }}</p>
+        <p class="mt-1 text-[15px] font-medium leading-[1.5] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
         <p class="mt-0.5 text-[13px] leading-[1.4] text-muted">
             {{ $jenis }}, masuk {{ $setoran->created_at->locale('id')->translatedFormat('j F Y, H.i') }}
         </p>

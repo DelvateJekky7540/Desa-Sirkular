@@ -14,7 +14,7 @@ class DetailSetoran extends Model
 
     protected $fillable = [
         'setoran_id',
-        'jenis_sampah',
+        'jenis_sampah_id',
         'berat',
         'harga_per_kg',
         'subtotal',
@@ -32,5 +32,10 @@ class DetailSetoran extends Model
     public function setoran(): BelongsTo
     {
         return $this->belongsTo(Setoran::class);
+    }
+
+    public function jenisSampah(): BelongsTo
+    {
+        return $this->belongsTo(JenisSampah::class);
     }
 }

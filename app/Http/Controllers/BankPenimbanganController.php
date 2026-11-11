@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankSampah;
 use App\Models\Setoran;
 use App\Support\Angka;
 use Illuminate\Http\RedirectResponse;
@@ -15,18 +16,21 @@ class BankPenimbanganController extends Controller
 {
     public function index(): View
     {
+        $bankAktif = BankSampah::query()->aktif()->orderBy('id')->first();
         $antreanError = null;
 
         try {
             $antrean = Setoran::query()
-                ->with(['user', 'detailSampah'])
+                ->with(['masyarakat.user', 'detailSampah.jenisSampah'])
+                ->when($bankAktif !== null, fn ($query) => $query->where('bank_sampah_id', $bankAktif->id))
                 ->where('status', Setoran::STATUS_MENUNGGU)
                 ->orderBy('created_at')
                 ->orderBy('id')
                 ->get();
 
             $sudahDitimbangHariIni = Setoran::query()
-                ->where('status', Setoran::STATUS_SUDAH_DITIMBANG)
+                ->when($bankAktif !== null, fn ($query) => $query->where('bank_sampah_id', $bankAktif->id))
+                ->where('status', Setoran::STATUS_DITIMBANG)
                 ->whereDate('updated_at', now()->toDateString())
                 ->count();
         } catch (Throwable $exception) {
@@ -38,6 +42,7 @@ class BankPenimbanganController extends Controller
         }
 
         return view('bank.penimbangan', [
+            'bankAktif' => $bankAktif,
             'antrean' => $antrean,
             'sudahDitimbangHariIni' => $sudahDitimbangHariIni,
             'antreanError' => $antreanError,
@@ -56,7 +61,18 @@ class BankPenimbanganController extends Controller
                 ->route('bank.penimbangan')
                 ->with('peringatan', sprintf(
                     'Setoran %s sudah ditimbang sebelumnya. Antrean sudah diperbarui.',
-                    $setoran->user?->name ?? 'warga',
+                    $setoran->masyarakat?->user?->nama ?? 'warga',
+                ));
+        }
+
+        $detail = $setoran->detailSampah()->orderBy('id')->first();
+
+        if ($detail === null) {
+            return redirect()
+                ->route('bank.penimbangan')
+                ->with('peringatan', sprintf(
+                    'Setoran %s belum punya rincian jenis sampah, jadi belum bisa ditimbang.',
+                    $setoran->masyarakat?->user?->nama ?? 'warga',
                 ));
         }
 
@@ -88,29 +104,29 @@ class BankPenimbanganController extends Controller
         $harga = (float) $data['harga_per_kg'];
         $subtotal = round($berat * $harga, 2);
 
-        DB::transaction(function () use ($setoran, $berat, $harga, $subtotal) {
-            $setoran->update([
-                'total_berat' => $berat,
-                'total_nilai' => $subtotal,
-                'status' => Setoran::STATUS_SUDAH_DITIMBANG,
-            ]);
-
-            $setoran->detailSampah()->orderBy('id')->first()?->update([
+        DB::transaction(function () use ($setoran, $detail, $berat, $harga, $subtotal) {
+            $detail->update([
                 'berat' => $berat,
                 'harga_per_kg' => $harga,
                 'subtotal' => $subtotal,
             ]);
+
+            $setoran->update([
+                'total_berat' => $setoran->detailSampah()->sum('berat'),
+                'total_nilai' => $setoran->detailSampah()->sum('subtotal'),
+                'status' => Setoran::STATUS_DITIMBANG,
+            ]);
         });
 
-        $setoran->refresh()->load('user', 'detailSampah');
+        $setoran->refresh()->load('masyarakat.user', 'detailSampah.jenisSampah');
 
         return redirect()
             ->route('bank.penimbangan')
             ->with('status', sprintf(
                 'Setoran %s sudah ditimbang: %s %s senilai %s.',
-                $setoran->user?->name ?? 'warga',
+                $setoran->masyarakat?->user?->nama ?? 'warga',
                 Angka::kg($berat),
-                $setoran->detailSampah->first()?->jenis_sampah ?? 'sampah',
+                $setoran->detailSampah->first()?->jenisSampah?->nama_sampah ?? 'sampah',
                 Angka::rupiah($subtotal),
             ));
     }

@@ -2,8 +2,72 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../../resources/views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'Public Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --color-bone: #f6f4ee;
+    --color-paper: #ffffff;
+    --color-ink: #1b211c;
+    --color-muted: #5a6357;
+    --color-forest: #2e4a3b;
+    --color-forest-hover: #243a2e;
+    --color-moss: #7c8b62;
+    --color-sage: #a8b892;
+    --color-ochre: #b8733a;
+    --color-stone: #e2ded3;
+    --color-brick: #a23a2a;
+    --color-mustard: #c9a227;
+    --color-berhasil: #4a6b4e;
+
+    --radius-card: 4px;
+    --radius-control: 8px;
+}
+
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+        @apply bg-bone font-sans text-ink antialiased;
+    }
+
+    a[href],
+    button:not(:disabled),
+    summary,
+    select,
+    label[for],
+    [role='button']:not([aria-disabled='true']) {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    [aria-disabled='true'] {
+        cursor: not-allowed;
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-forest);
+        outline-offset: 2px;
+    }
+
+    ::selection {
+        background: var(--color-sage);
+        color: var(--color-ink);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
 }

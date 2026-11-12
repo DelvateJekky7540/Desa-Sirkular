@@ -99,6 +99,22 @@ class PenggunaSeeder extends Seeder
                 'no_hp' => '0813-2200-1108',
                 'alamat' => 'Dusun Krajan RT 04, Desa Sukamaju',
             ],
+            [
+                'nama' => 'Bank Sampah Sumber Rejeki',
+                'username' => 'banksampah',
+                'email' => 'bank@demo.com',
+                'role' => User::ROLE_BANK,
+                'no_hp' => '0812-3456-7891',
+                'alamat' => 'Balai Desa Sukamaju, Jl. Raya Sukamaju No. 12',
+            ],
+            [
+                'nama' => 'Mitra Plastik Jaya',
+                'username' => 'mitraplastik',
+                'email' => 'mitra@demo.com',
+                'role' => User::ROLE_MITRA,
+                'no_hp' => '0812-3456-7894',
+                'alamat' => 'Jl. Industri Raya No. 12, Sukamaju',
+            ],
         ];
 
         foreach ($pengguna as $data) {
@@ -116,6 +132,6 @@ class PenggunaSeeder extends Seeder
             );
         }
 
-        $this->command?->info('Akun demo: admin, hendra, ratna, siti, budi, rina, dedi, ani, joko, sri, rizky. Kata sandi: password');
+        $this->command?->info('Akun demo: admin, hendra, ratna, siti, budi, rina, dedi, ani, joko, sri, rizky, banksampah, mitraplastik. Kata sandi: password');
     }
 }

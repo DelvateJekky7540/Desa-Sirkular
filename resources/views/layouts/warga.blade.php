@@ -18,7 +18,13 @@
             <a href="{{ route('warga.beranda') }}" class="inline-flex min-h-11 items-center font-display text-[20px] font-medium leading-none text-forest">
                 Desa Sirkular
             </a>
-            <p class="text-[12px] leading-[1.4] text-muted">Catatan warga</p>
+            <div class="flex items-center gap-3">
+                <p class="text-right text-[12px] leading-[1.4] text-muted">
+                    <span class="block font-medium text-ink">{{ auth()->user()?->nama ?? 'Warga' }}</span>
+                    Catatan warga
+                </p>
+                @include('partials.keluar')
+            </div>
         </div>
     </header>
 

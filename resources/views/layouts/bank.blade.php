@@ -16,10 +16,13 @@
     <header class="border-b border-stone">
         <div class="mx-auto flex min-h-16 max-w-[1280px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-3 md:px-6">
             <span class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</span>
-            <p class="w-full text-left text-[12px] leading-[1.4] text-muted md:w-auto md:text-right">
-                <span class="block font-medium text-ink">Pengelola Bank Sampah</span>
-                {{ $bankAktif?->nama_bank ?? 'Bank Sampah Sumber Rejeki' }}, Desa Sukamaju
-            </p>
+            <div class="flex w-full items-center justify-between gap-4 md:w-auto md:justify-end">
+                <p class="text-left text-[12px] leading-[1.4] text-muted md:text-right">
+                    <span class="block font-medium text-ink">Pengelola Bank Sampah</span>
+                    {{ $bankAktif?->nama_bank ?? 'Bank Sampah Sumber Rejeki' }}, Desa Sukamaju
+                </p>
+                @include('partials.keluar')
+            </div>
         </div>
     </header>
 

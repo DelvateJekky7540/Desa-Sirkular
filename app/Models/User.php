@@ -25,6 +25,10 @@ class User extends Authenticatable
 
     public const ROLE_MASYARAKAT = 'masyarakat';
 
+    public const ROLE_BANK = 'bank';
+
+    public const ROLE_MITRA = 'mitra';
+
     /**
      * Get the attributes that should be cast.
      *

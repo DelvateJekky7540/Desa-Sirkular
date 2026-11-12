@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankPenerimaanController;
 use App\Http\Controllers\BankPenimbanganController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MitraKatalogController;
 use App\Http\Controllers\WargaEstimasiController;
 use App\Http\Controllers\WargaSetoranController;
@@ -9,9 +12,19 @@ use App\Models\BankSampah;
 use App\Models\JenisSampah;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+Route::get('/login', [AuthController::class, 'form'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.attempt')->middleware('throttle:5,1');
+Route::post('/login/demo/{peran}', [AuthController::class, 'demo'])
+    ->where('peran', 'admin|bank|warga|mitra')
+    ->name('login.demo')
+    ->middleware('throttle:5,1');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
+    ->name('admin.dashboard')
+    ->middleware('auth');
 
 Route::get('/bank/penerimaan', [BankPenerimaanController::class, 'index'])->name('bank.penerimaan');
 Route::post('/bank/penerimaan', [BankPenerimaanController::class, 'store'])->name('bank.penerimaan.store');

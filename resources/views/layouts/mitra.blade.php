@@ -19,9 +19,12 @@
 
     <div class="mx-auto flex max-w-[1280px] flex-col md:flex-row">
         <aside class="border-b border-stone md:w-[240px] md:shrink-0 md:border-b-0 md:border-r">
-            <div class="px-4 py-3 md:px-5 md:py-6">
-                <span class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</span>
-                <p class="mt-1.5 text-[12px] leading-[1.4] text-muted md:mt-2">Mitra Daur Ulang, Desa Sukamaju</p>
+            <div class="flex items-start justify-between gap-3 px-4 py-3 md:px-5 md:py-6">
+                <div>
+                    <span class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</span>
+                    <p class="mt-1.5 text-[12px] leading-[1.4] text-muted md:mt-2">Mitra Daur Ulang, Desa Sukamaju</p>
+                </div>
+                @include('partials.keluar')
             </div>
 
             <nav aria-label="Navigasi mitra" class="flex gap-x-5 overflow-x-auto px-4 pb-2 md:flex-col md:gap-x-0 md:overflow-visible md:px-5 md:pb-12">

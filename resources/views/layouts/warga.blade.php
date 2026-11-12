@@ -2,36 +2,17 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
     <title>@yield('title', 'Catatan warga, Desa Sirkular')</title>
     <meta name="description" content="@yield('description', 'Catatan setoran sampah warga Desa Sukamaju.')">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen">
-    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
+<body class="flex min-h-screen flex-col">
+    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
         Lewati ke isi halaman
     </a>
-
-    <header class="border-b border-stone">
-        <div class="mx-auto flex min-h-16 w-full max-w-[560px] items-center justify-between gap-4 px-4">
-            <a href="{{ route('warga.beranda') }}" class="inline-flex min-h-11 items-center font-display text-[20px] font-medium leading-none text-forest">
-                Desa Sirkular
-            </a>
-            <div class="flex items-center gap-3">
-                <p class="text-right text-[12px] leading-[1.4] text-muted">
-                    <span class="block font-medium text-ink">{{ auth()->user()?->nama ?? 'Warga' }}</span>
-                    Catatan warga
-                </p>
-                @include('partials.keluar')
-            </div>
-        </div>
-    </header>
-
-    <main id="konten" tabindex="-1" class="mx-auto w-full max-w-[560px] px-4 pb-[calc(6rem_+_env(safe-area-inset-bottom))] pt-6 md:pt-8">
-        @include('partials.flash')
-        @yield('content')
-    </main>
 
     @php
         $ruteAktif = request()->route()?->getName();
@@ -59,7 +40,47 @@
         ];
     @endphp
 
-    <nav aria-label="Navigasi utama" class="fixed inset-x-0 bottom-0 z-40 border-t border-stone bg-bone pb-[env(safe-area-inset-bottom)]">
+    <header class="border-b border-stone bg-bone md:sticky md:top-0 md:z-40">
+        <div class="mx-auto flex min-h-16 w-full max-w-[560px] items-center justify-between gap-4 px-4 md:max-w-[1100px] md:px-6">
+            <div class="flex min-h-16 items-center gap-6">
+                <a href="{{ route('warga.beranda') }}" class="inline-flex min-h-11 items-center font-display text-[20px] font-medium leading-none text-forest">
+                    Desa Sirkular
+                </a>
+                <nav aria-label="Navigasi warga" class="hidden self-stretch md:flex">
+                    @foreach ($menuWarga as $menu)
+                        @php
+                            $aktif = $ruteAktif === $menu['rute']
+                                || ($menu['rute'] === 'warga.setor' && $ruteAktif === 'warga.estimasi');
+                            $current = $menu['rute'] === 'warga.setor' && $ruteAktif === 'warga.estimasi'
+                                ? 'step'
+                                : 'page';
+                        @endphp
+                        <a
+                            href="{{ route($menu['rute']) }}"
+                            @if ($aktif) aria-current="{{ $current }}" @endif
+                            class="flex min-h-16 items-center border-b-2 px-3 text-[13px] font-medium leading-none {{ $aktif ? 'border-forest text-forest' : 'border-transparent text-muted hover:text-forest' }}"
+                        >
+                            {{ $menu['label'] }}
+                        </a>
+                    @endforeach
+                </nav>
+            </div>
+            <div class="flex items-center gap-3">
+                <p class="text-right text-[12px] leading-[1.4] text-muted">
+                    <span class="block font-medium text-ink">{{ auth()->user()?->nama ?? 'Warga' }}</span>
+                    <span class="md:hidden lg:inline">Catatan warga</span>
+                </p>
+                @include('partials.keluar')
+            </div>
+        </div>
+    </header>
+
+    <main id="konten" tabindex="-1" class="mx-auto w-full max-w-[560px] flex-1 px-4 pb-[calc(6rem_+_env(safe-area-inset-bottom))] pt-6 md:pb-16 md:pt-8">
+        @include('partials.flash')
+        @yield('content')
+    </main>
+
+    <nav aria-label="Navigasi utama" class="nav-bawah-warga fixed inset-x-0 bottom-0 z-40 border-t border-stone bg-bone pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] md:hidden">
         <ul class="mx-auto grid w-full max-w-[560px] grid-cols-4 gap-1 px-1">
             @foreach ($menuWarga as $menu)
                 @php

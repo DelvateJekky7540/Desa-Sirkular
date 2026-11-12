@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Masuk, Desa Sirkular</title>
     <meta name="description" content="Masuk ke sistem Desa Sirkular dengan akun yang diberikan pengelola desa.">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

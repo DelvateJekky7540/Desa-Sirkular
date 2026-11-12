@@ -120,7 +120,7 @@
             Pin hanya muncul untuk bank sampah yang koordinatnya sudah diisi. Bank tanpa koordinat didaftarkan di bawah peta.
         </p>
 
-        <div data-peta aria-label="Peta sebaran bank sampah Desa Sukamaju" class="relative mt-6 h-[500px] w-full overflow-hidden rounded-card border border-stone bg-bone md:h-[640px]">
+        <div data-peta aria-label="Peta sebaran bank sampah Desa Sukamaju" class="relative isolate mt-6 h-[500px] w-full overflow-hidden rounded-card border border-stone bg-bone md:h-[640px]">
             <div data-peta-fallback class="absolute inset-0 overflow-auto px-4 py-4 md:px-6">
                 <p class="text-[14px] font-medium leading-[1.5] text-ink">Peta belum bisa dimuat.</p>
                 <p class="mt-1 max-w-[64ch] text-[13px] leading-[1.5] text-muted">

@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Desa Sirkular, Ekonomi sirkular sampah desa</title>
     <meta name="description" content="Platform ekonomi sirkular sampah desa Sukamaju: warga menabung dari setoran, bank sampah bertransaksi, mitra daur ulang mendapat bahan baku.">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen">
-    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
+    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
         Lewati ke isi halaman
     </a>
 
@@ -45,20 +46,31 @@
         ];
     @endphp
 
-    <header class="border-b border-stone">
-        <div class="mx-auto flex min-h-16 max-w-[1100px] items-center justify-between gap-4 px-4 md:px-6">
-            <a href="{{ route('landing') }}" class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</a>
+    <header class="sticky top-0 z-50 border-b border-stone bg-bone">
+        <div class="mx-auto flex min-h-16 max-w-[1100px] items-center justify-between gap-4 px-4 py-4 md:px-6">
+            <div class="flex items-center gap-4">
+                <a href="{{ route('landing') }}" class="flex flex-col justify-center">
+                    <span class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</span>
+                    <span class="mt-1 text-[10px] font-medium leading-[12px] text-muted">Ekonomi Sirkular Desa</span>
+                </a>
+                <p class="hidden items-center gap-2 sm:inline-flex">
+                    <span class="h-2 w-2 rounded-full bg-moss" aria-hidden="true"></span>
+                    <span class="text-[12px] leading-none text-muted">Sistem Aktif</span>
+                </p>
+            </div>
             @guest
                 <div class="flex items-center gap-3 md:gap-4">
-                    <a href="{{ route('tracking.form') }}" class="inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest">
+                    <p class="hidden whitespace-nowrap font-mono text-[13px] leading-none text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
+                    <a href="{{ route('tracking.form') }}" class="inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline">
                         Lacak sampah
                     </a>
-                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-4 text-[13px] font-medium leading-none text-ink hover:border-moss">
+                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-forest px-5 text-[13px] font-medium leading-none text-forest hover:bg-forest hover:text-white active:translate-y-px">
                         Masuk
                     </a>
                 </div>
             @else
                 <div class="flex items-center gap-3">
+                    <p class="hidden whitespace-nowrap font-mono text-[13px] leading-none text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
                     <a href="{{ route('tracking.form') }}" class="hidden h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest sm:inline-flex">
                         Lacak sampah
                     </a>
@@ -195,15 +207,48 @@
     </main>
 
     <footer class="border-t border-stone">
-        <div class="mx-auto flex max-w-[1100px] flex-wrap items-baseline justify-between gap-x-6 gap-y-2 px-4 py-6 md:px-6">
-            <div>
-                <p class="font-display text-[16px] font-medium leading-none text-forest">Desa Sirkular</p>
-                <p class="mt-1.5 text-[12px] leading-[1.4] text-muted">Ekonomi sirkular sampah desa. Dibangun untuk Desa Sukamaju.</p>
-                <a href="{{ route('tracking.form') }}" class="mt-1 inline-flex min-h-11 items-center text-[12px] font-medium leading-none text-forest underline underline-offset-4 hover:decoration-2">
-                    Lacak sampah
-                </a>
+        <div class="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-[1.4fr_1fr_1.1fr_1.2fr]">
+                <div>
+                    <p class="font-display text-[24px] font-medium leading-[1.3] text-forest">Desa Sirkular</p>
+                    <p class="mt-3 max-w-[36ch] text-[13px] leading-[1.6] text-muted">Menghubungkan warga, bank sampah, mitra daur ulang, dan pemerintah desa.</p>
+                </div>
+
+                <nav aria-labelledby="footer-navigasi">
+                    <p id="footer-navigasi" class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Navigasi</p>
+                    <ul class="mt-3">
+                        <li><a href="{{ route('landing') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Beranda</a></li>
+                        <li><a href="{{ route('tracking.form') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Lacak sampah</a></li>
+                        <li><a href="{{ route('warga.estimasi') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Perkiraan nilai setoran</a></li>
+                        <li><a href="{{ route('mitra.katalog') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Katalog bahan baku</a></li>
+                        <li><a href="{{ route('login') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Masuk</a></li>
+                    </ul>
+                </nav>
+
+                <div>
+                    <p class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Fitur Utama</p>
+                    <ul class="mt-3 space-y-1.5">
+                        @foreach ($fitur as $item)
+                            <li class="text-[13px] leading-[1.6] text-muted">{{ $item[0] }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <div>
+                    <p class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Informasi</p>
+                    <ul class="mt-3 space-y-1.5">
+                        <li class="text-[13px] leading-[1.6] text-muted">Data demo: akun pengguna, bank sampah, dan setoran ditanam lewat seeder.</li>
+                        <li class="text-[13px] leading-[1.6] text-muted">Tiga fitur sudah jalan di demo, tiga masih dibangun.</li>
+                        <li class="text-[13px] leading-[1.6] text-muted">Desa percontohan: Sukamaju.</li>
+                    </ul>
+                </div>
             </div>
-            <p class="text-[12px] leading-[1.4] text-muted">Data demo: akun pengguna, bank sampah, dan setoran ditanam lewat seeder.</p>
+        </div>
+
+        <div class="border-t border-stone">
+            <div class="mx-auto max-w-[1100px] px-4 py-5 md:px-6">
+                <p class="text-[12px] leading-[1.4] text-muted">&copy; 2026 Desa Sirkular. Dibangun untuk KRENOVA UNISRI.</p>
+            </div>
         </div>
     </footer>
 </body>

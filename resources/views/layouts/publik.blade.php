@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Desa Sirkular')</title>
     <meta name="description" content="@yield('description', 'Platform ekonomi sirkular sampah desa Sukamaju: warga menabung dari setoran, bank sampah bertransaksi, mitra daur ulang mendapat bahan baku.')">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen">
-    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
+    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
         Lewati ke isi halaman
     </a>
 

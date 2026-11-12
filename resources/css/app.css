@@ -71,3 +71,10 @@
         }
     }
 }
+
+/* Nav bawah warga menyingkir saat papan ketik virtual terbuka, agar tidak menutupi isian form. */
+@media (max-width: 767.98px) {
+    body:has(main :is(input, select, textarea):focus) .nav-bawah-warga {
+        display: none;
+    }
+}

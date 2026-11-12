@@ -55,6 +55,12 @@
         outline-offset: 2px;
     }
 
+    input,
+    select,
+    textarea {
+        transition: border-color 150ms ease, background-color 150ms ease;
+    }
+
     ::selection {
         background: var(--color-sage);
         color: var(--color-ink);
@@ -69,6 +75,55 @@
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
         }
+    }
+}
+
+@layer components {
+    .label-form {
+        display: block;
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+    }
+
+    .judul-seksi {
+        border-top: 2px solid var(--color-forest);
+        padding-top: 1rem;
+    }
+
+    .tautan-garis {
+        position: relative;
+        text-decoration: underline;
+        text-decoration-color: var(--color-stone);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+    }
+
+    .tautan-garis::after {
+        position: absolute;
+        right: 0;
+        bottom: var(--garis-bawah, -0.18em);
+        left: 0;
+        height: 1px;
+        background-color: currentColor;
+        content: '';
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 180ms ease-out;
+    }
+
+    .tautan-garis:hover::after,
+    .tautan-garis:focus-visible::after {
+        transform: scaleX(1);
+    }
+
+    .tautan-garis-nav {
+        --garis-bawah: 0.65rem;
+        text-decoration: none;
     }
 }
 

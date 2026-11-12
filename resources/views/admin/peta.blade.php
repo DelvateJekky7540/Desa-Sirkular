@@ -83,8 +83,9 @@
 @endpush
 
 @section('content')
-    <div class="border-b border-stone pb-4">
-        <h1 class="font-display text-[26px] font-medium leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Peta bank sampah</h1>
+    <div class="border-t-2 border-t-forest border-b border-b-stone pt-4 pb-4">
+        <p class="mb-2 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Peta GIS, Desa Sukamaju</p>
+        <h1 class="font-display text-[26px] font-semibold leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Peta bank sampah</h1>
         <p class="mt-2 max-w-[64ch] text-[15px] leading-[1.6] text-muted">
             Sebaran bank sampah di Desa Sukamaju. Klik pin untuk membuka nama, alamat, dan katalog bahan baku bank tersebut.
         </p>
@@ -94,7 +95,7 @@
         <div role="alert" class="mt-6 border border-stone border-l-[3px] border-l-brick bg-bone px-4 py-3">
             <p class="text-[14px] font-medium leading-[1.5] text-ink">Peta belum bisa ditampilkan.</p>
             <p class="mt-1 text-[13px] leading-[1.5] text-muted">{{ $dataError }}</p>
-            <a href="{{ route('admin.peta') }}" class="mt-2 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">Muat ulang halaman</a>
+            <a href="{{ route('admin.peta') }}" class="tautan-garis mt-2 inline-flex h-11 items-center text-[13px] font-medium text-forest">Muat ulang halaman</a>
         </div>
     @elseif ($totalBank === 0)
         <div class="mt-6 border border-stone bg-bone px-4 py-5">
@@ -104,15 +105,15 @@
     @else
         <dl class="mt-6 grid grid-cols-1 border-y border-stone md:grid-cols-3 md:divide-x md:divide-stone">
             <div class="py-4 md:py-5 md:pr-8">
-                <dt class="text-[13px] leading-[1.4] text-muted">Bank sampah terdaftar</dt>
+                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Bank sampah terdaftar</dt>
                 <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ink md:text-[32px]">{{ $totalBank }}</dd>
             </div>
             <div class="border-t border-stone py-4 md:border-t-0 md:py-5 md:px-8">
-                <dt class="text-[13px] leading-[1.4] text-muted">Sudah berkoordinat, tampil di peta</dt>
+                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Sudah berkoordinat, tampil di peta</dt>
                 <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ink md:text-[32px]">{{ $berkoordinat->count() }}</dd>
             </div>
             <div class="border-t border-stone py-4 md:border-t-0 md:py-5 md:pl-8">
-                <dt class="text-[13px] leading-[1.4] text-muted">Belum berkoordinat</dt>
+                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Belum berkoordinat</dt>
                 <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ink md:text-[32px]">{{ $tanpaKoordinat->count() }}</dd>
             </div>
         </dl>
@@ -128,7 +129,7 @@
                 </p>
                 <ul class="mt-3">
                     @foreach ($berkoordinat as $bank)
-                        <li class="border-b border-stone py-3">
+                        <li class="border-b border-stone py-4 transition-colors hover:bg-[#F0EDE4]">
                             <p class="text-[14px] font-medium leading-[1.4] text-ink">{{ $bank->nama_bank }}</p>
                             <p class="mt-0.5 text-[12px] leading-[1.4] text-muted">{{ $bank->alamat }}</p>
                             <p class="mt-0.5 font-mono text-[12px] leading-[1.4] text-muted">{{ $bank->latitude }}, {{ $bank->longitude }}</p>
@@ -140,20 +141,20 @@
         <script type="application/json" data-peta-data>{!! $pinPeta->toJson(JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
 
         @if ($tanpaKoordinat->isNotEmpty())
-            <div class="mt-8 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-stone pb-3">
-                <h2 class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Belum berkoordinat</h2>
-                <p class="text-[12px] leading-[1.4] text-muted">{{ $tanpaKoordinat->count() }} bank sampah</p>
+            <div class="judul-seksi mt-8 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-b-stone pb-3">
+                <h2 class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Belum berkoordinat</h2>
+                <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $tanpaKoordinat->count() }} bank sampah</p>
             </div>
             <ul>
                 @foreach ($tanpaKoordinat as $bank)
-                    <li class="border-b border-stone py-3 md:flex md:items-baseline md:justify-between md:gap-x-4">
+                    <li class="border-b border-stone py-4 transition-colors hover:bg-[#F0EDE4] md:flex md:items-baseline md:justify-between md:gap-x-4">
                         <div class="min-w-0">
                             <p class="text-[14px] font-medium leading-[1.4] text-ink">{{ $bank->nama_bank }}</p>
                             <p class="mt-0.5 text-[12px] leading-[1.4] text-muted">{{ $bank->alamat }}</p>
                         </div>
                         <div class="mt-1.5 flex items-baseline gap-x-4 md:mt-0 md:shrink-0">
                             <span class="text-[12px] leading-[1.4] text-muted">Koordinat belum diisi</span>
-                            <a href="{{ route('mitra.katalog', ['bank' => $bank->id]) }}" class="inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">Lihat katalog</a>
+                            <a href="{{ route('mitra.katalog', ['bank' => $bank->id]) }}" class="tautan-garis inline-flex h-11 items-center text-[13px] font-medium text-forest">Lihat katalog</a>
                         </div>
                     </li>
                 @endforeach

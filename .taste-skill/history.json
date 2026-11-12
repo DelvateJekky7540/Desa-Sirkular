@@ -1,0 +1,58 @@
+{
+ "palettes": [],
+ "types": [],
+ "dealt": [
+  "newsreader",
+  "figtree",
+  "outfit"
+ ],
+ "photos": [
+  {
+   "trade": "hotel",
+   "draft": true,
+   "lead": null,
+   "ids": [
+    "m61856012",
+    "m61777177",
+    "m61847874",
+    "d88",
+    "m61880133",
+    "m61777357",
+    "m61665613",
+    "m150619721"
+   ],
+   "sections": [
+    "hero",
+    "visit",
+    "rooms",
+    "breakfast",
+    "grounds",
+    "exterior"
+   ],
+   "seed": "6j45n8",
+   "at": "2026-11-12T12:50:23.468Z"
+  }
+ ],
+ "moments": [
+  {
+   "id": "photo-chapters",
+   "at": "2026-11-12T12:53:40.573Z",
+   "seed": "206ec9a0"
+  },
+  {
+   "id": "picture-develops",
+   "at": "2026-11-12T12:53:40.573Z",
+   "seed": "206ec9a0"
+  },
+  {
+   "id": "photo-chapters",
+   "at": "2026-11-12T12:54:03.437Z",
+   "seed": "6cbc8307"
+  },
+  {
+   "id": "picture-develops",
+   "at": "2026-11-12T12:54:33.592Z",
+   "seed": "ebe70777"
+  }
+ ]
+}

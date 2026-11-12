@@ -4,8 +4,8 @@
 @section('description', 'Formulir pengajuan setoran sampah warga Desa Sukamaju.')
 
 @section('content')
-    <p class="font-mono text-[12px] leading-[1.4] text-muted">Catatan, {{ now()->locale('id')->translatedFormat('l, j F Y') }}</p>
-    <h1 class="mt-2 font-display text-[26px] font-medium leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Ajukan setoran</h1>
+    <p class="border-t-2 border-t-forest pt-4 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Catatan, {{ now()->locale('id')->translatedFormat('l, j F Y') }}</p>
+    <h1 class="mt-2 font-display text-[26px] font-semibold leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Ajukan setoran</h1>
     <p class="mt-2 max-w-[48ch] text-[15px] leading-[1.6] text-muted">
         Isi jenis dan berat sampah. Pengajuan masuk antrean bank sampah untuk ditimbang ulang.
     </p>
@@ -14,7 +14,7 @@
         <div role="alert" class="mt-6 rounded-card border border-stone bg-paper p-4 md:p-5">
             <h2 class="text-[17px] font-semibold leading-[1.4] text-ink">Formulir belum bisa dibuka.</h2>
             <p class="mt-1 text-[13px] leading-[1.5] text-muted">{{ $daftarError }}</p>
-            <a href="{{ route('warga.setor') }}" class="mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">
+            <a href="{{ route('warga.setor') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">
                 Muat ulang halaman
             </a>
         </div>
@@ -24,7 +24,7 @@
             <p class="mt-1 max-w-[48ch] text-[13px] leading-[1.5] text-muted">
                 Pengajuan belum bisa dikirim karena belum ada bank sampah aktif. Coba lagi nanti atau hubungi pengelola bank sampah.
             </p>
-            <a href="{{ route('warga.beranda') }}" class="mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">
+            <a href="{{ route('warga.beranda') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">
                 Kembali ke beranda
             </a>
         </div>
@@ -34,7 +34,7 @@
             <p class="mt-1 max-w-[48ch] text-[13px] leading-[1.5] text-muted">
                 Pengajuan belum bisa dicatat karena data warga belum tersedia. Hubungi pengelola bank sampah.
             </p>
-            <a href="{{ route('warga.beranda') }}" class="mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">
+            <a href="{{ route('warga.beranda') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">
                 Kembali ke beranda
             </a>
         </div>
@@ -44,14 +44,14 @@
             <p class="mt-1 max-w-[48ch] text-[13px] leading-[1.5] text-muted">
                 Bank sampah belum menerbitkan harga untuk jenis sampah aktif. Coba lagi nanti atau hubungi pengelola bank sampah.
             </p>
-            <a href="{{ route('warga.beranda') }}" class="mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">
+            <a href="{{ route('warga.beranda') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">
                 Kembali ke beranda
             </a>
         </div>
     @else
         <section aria-labelledby="judul-form" class="mt-6 rounded-card border border-stone bg-paper p-4 md:p-5">
             <div class="border-b border-stone pb-4">
-                <p class="text-[12px] leading-[1.4] text-muted">Pengajuan untuk</p>
+                <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Pengajuan untuk</p>
                 <p class="mt-1 text-[15px] font-medium leading-[1.4] text-ink">{{ $wargaAktif->user?->nama ?? 'Warga' }}</p>
             </div>
 
@@ -72,7 +72,7 @@
                 @csrf
 
                 <div>
-                    <label for="jenis_sampah" class="block text-[13px] font-medium leading-[1.4] text-ink">Jenis sampah</label>
+                    <label for="jenis_sampah" class="label-form">Jenis sampah</label>
                     <select
                         id="jenis_sampah"
                         name="jenis_sampah_id"
@@ -103,7 +103,7 @@
                 </div>
 
                 <div>
-                    <label for="berat" class="block text-[13px] font-medium leading-[1.4] text-ink">Berat</label>
+                    <label for="berat" class="label-form">Berat</label>
                     <div class="relative mt-2">
                         <input
                             id="berat"
@@ -128,7 +128,7 @@
                 </div>
 
                 <div class="border-t border-stone pt-4">
-                    <label for="catatan" class="block text-[13px] font-medium leading-[1.4] text-ink">Catatan</label>
+                    <label for="catatan" class="label-form">Catatan</label>
                     <textarea
                         id="catatan"
                         name="catatan"
@@ -145,7 +145,7 @@
                 </div>
 
                 <div class="border-t border-stone pt-4">
-                    <p class="text-[13px] leading-[1.4] text-muted">Perkiraan nilai setoran</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Perkiraan nilai setoran</p>
                     <p class="mt-1 text-right" aria-live="polite" aria-atomic="true">
                         <span class="sr-only">Perkiraan nilai setoran: </span>
                         <span data-estimasi-angka data-aktif="false" class="inline-block border-b-2 border-stone pb-1 font-mono text-[28px] font-medium leading-[1.1] text-muted data-[aktif=true]:border-ochre data-[aktif=true]:text-ochre">Rp 0</span>
@@ -156,11 +156,11 @@
 
                 <div class="border-t border-stone pt-4">
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="inline-flex min-h-7 items-center rounded-full bg-mustard/15 px-3 text-[12px] font-medium leading-[1.4] text-ink">Menunggu timbang</span>
+                        <span class="inline-flex min-h-7 items-center rounded-full bg-mustard/15 px-3 font-mono text-[11px] uppercase leading-[1.4] tracking-[0.06em] text-ink">Menunggu timbang</span>
                         <p class="text-[12px] leading-[1.4] text-muted">Status awal setelah pengajuan dikirim.</p>
                     </div>
 
-                    <button type="submit" data-submit class="mt-3 inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60">
+                    <button type="submit" data-submit class="mt-3 inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60">
                         <span data-submit-label>Kirim pengajuan</span>
                     </button>
                     <p data-status-pengajuan role="status" class="sr-only"></p>

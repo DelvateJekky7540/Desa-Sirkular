@@ -16,17 +16,17 @@
     class="m-auto max-h-[calc(100dvh-2rem)] w-[min(560px,calc(100vw-2rem))] overflow-y-auto rounded-card border border-stone bg-paper p-0 text-ink shadow-[0_4px_12px_rgba(27,33,28,0.06)] backdrop:bg-ink/40 max-sm:mb-0 max-sm:mt-auto max-sm:w-full max-sm:max-w-none max-sm:rounded-b-none"
 >
     <div class="border-b border-stone p-4 md:p-5">
-        <h2 id="judul-timbang-{{ $setoran->id }}" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">
+        <h2 id="judul-timbang-{{ $setoran->id }}" class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">
             Timbang setoran
         </h2>
         <p class="mt-1 text-[15px] font-medium leading-[1.5] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
-        <p class="mt-0.5 text-[13px] leading-[1.4] text-muted">
+        <p class="mt-0.5 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">
             {{ $jenis }}, masuk {{ $setoran->created_at->locale('id')->translatedFormat('j F Y, H.i') }}
         </p>
 
         @if ($setoran->catatan)
             <div class="mt-3 border border-stone bg-bone px-3 py-2">
-                <p class="text-[12px] font-medium leading-[1.4] text-muted">Catatan warga</p>
+                <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Catatan warga</p>
                 <p class="mt-0.5 text-[13px] leading-[1.5] text-ink">{{ $setoran->catatan }}</p>
             </div>
         @endif
@@ -53,7 +53,7 @@
             @endif
 
             <div>
-                <label for="berat-{{ $setoran->id }}" class="block text-[13px] font-medium leading-[1.4] text-ink">Berat aktual</label>
+                <label for="berat-{{ $setoran->id }}" class="label-form">Berat aktual</label>
                 <div class="relative mt-2">
                     <input
                         id="berat-{{ $setoran->id }}"
@@ -82,7 +82,7 @@
             </div>
 
             <div class="mt-3">
-                <label for="harga-{{ $setoran->id }}" class="block text-[13px] font-medium leading-[1.4] text-ink">Harga per kilogram</label>
+                <label for="harga-{{ $setoran->id }}" class="label-form">Harga per kilogram</label>
                 <div class="relative mt-2">
                     <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-muted" aria-hidden="true">Rp</span>
                     <input
@@ -108,7 +108,7 @@
 
             <div class="mt-4 border-t border-dashed border-stone pt-3">
                 <div class="flex items-baseline justify-between gap-3">
-                    <p class="text-[13px] leading-[1.4] text-muted">Nilai setoran</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Nilai setoran</p>
                     <p data-total aria-live="polite" class="font-mono text-[28px] font-medium leading-none text-ochre">
                         {{ Angka::rupiah($beratTercatat * $hargaAwal) }}
                     </p>
@@ -121,14 +121,14 @@
             <button
                 type="button"
                 data-tutup-timbang
-                class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-6 text-[15px] font-medium text-ink hover:bg-bone active:translate-y-px"
+                class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-6 text-[15px] font-medium text-ink transition-colors duration-150 hover:bg-bone active:translate-y-px"
             >
                 Batal
             </button>
             <button
                 type="submit"
                 data-simpan
-                class="inline-flex h-12 items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60"
+                class="inline-flex h-12 items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60"
             >
                 <span data-simpan-label>Simpan hasil timbang</span>
             </button>

@@ -55,23 +55,23 @@
                 </a>
                 <p class="hidden items-center gap-2 sm:inline-flex">
                     <span class="h-2 w-2 rounded-full bg-moss" aria-hidden="true"></span>
-                    <span class="text-[12px] leading-none text-muted">Sistem Aktif</span>
+                    <span class="font-mono text-[11px] uppercase leading-none tracking-[0.06em] text-muted">Sistem Aktif</span>
                 </p>
             </div>
             @guest
                 <div class="flex items-center gap-3 md:gap-4">
-                    <p class="hidden whitespace-nowrap font-mono text-[13px] leading-none text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
-                    <a href="{{ route('tracking.form') }}" class="inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline">
+                    <p class="hidden whitespace-nowrap font-mono text-[12px] uppercase leading-none tracking-[0.08em] text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
+                    <a href="{{ route('tracking.form') }}" class="tautan-garis tautan-garis-nav inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest">
                         Lacak sampah
                     </a>
-                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-forest px-5 text-[13px] font-medium leading-none text-forest hover:bg-forest hover:text-white active:translate-y-px">
+                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-forest px-5 text-[13px] font-medium leading-none text-forest transition-colors duration-150 hover:bg-forest hover:text-bone active:translate-y-px">
                         Masuk
                     </a>
                 </div>
             @else
                 <div class="flex items-center gap-3">
-                    <p class="hidden whitespace-nowrap font-mono text-[13px] leading-none text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
-                    <a href="{{ route('tracking.form') }}" class="hidden h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest sm:inline-flex">
+                    <p class="hidden whitespace-nowrap font-mono text-[12px] uppercase leading-none tracking-[0.08em] text-muted md:inline-flex">{{ now()->locale('id')->translatedFormat('l, j M Y') }}</p>
+                    <a href="{{ route('tracking.form') }}" class="tautan-garis tautan-garis-nav hidden h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest sm:inline-flex">
                         Lacak sampah
                     </a>
                     <p class="text-[12px] leading-[1.4] text-muted">{{ auth()->user()?->nama }}</p>
@@ -84,14 +84,15 @@
     <main id="konten" tabindex="-1">
         <section aria-labelledby="judul-hero" class="mx-auto max-w-[1100px] px-4 pt-12 md:px-6 md:pt-20">
             <div class="max-w-[720px]">
-                <h1 id="judul-hero" class="font-display text-[32px] font-medium leading-[1.15] text-ink md:text-[48px] md:leading-[1.1]">
+                <p class="border-t-2 border-t-forest pt-4 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Laporan desa, Desa Sukamaju</p>
+                <h1 id="judul-hero" class="mt-3 font-display text-[32px] font-semibold leading-[1.15] text-ink md:text-[48px] md:leading-[1.1]">
                     Sampah desa, rantai yang tidak putus.
                 </h1>
                 <p class="mt-3 max-w-[58ch] text-[15px] leading-[1.6] text-muted md:mt-4">
                     Desa Sirkular mencatat perjalanan sampah dari dapur warga sampai pabrik daur ulang. Warga menabung dari setoran, bank sampah bertransaksi, mitra mendapat bahan baku, dan desa membaca semuanya dalam satu laporan.
                 </p>
                 <div class="mt-6 md:mt-8">
-                    <a href="{{ route('login') }}" class="inline-flex h-12 items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px">
+                    <a href="{{ route('login') }}" class="inline-flex h-12 items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px">
                         Masuk ke sistem
                     </a>
                 </div>
@@ -105,15 +106,15 @@
             @else
                 <dl class="mt-12 grid grid-cols-1 border-y border-stone md:mt-16 md:grid-cols-3 md:divide-x md:divide-stone">
                     <div class="py-4 md:py-5 md:pr-6">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Sampah tercatat di bank sampah</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Sampah tercatat di bank sampah</dt>
                         <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ink md:text-[32px]">{{ Angka::kg($statistik['berat']) }}</dd>
                     </div>
                     <div class="border-t border-stone py-4 md:border-t-0 md:py-5 md:px-6">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Nilai ekonomi setoran</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Nilai ekonomi setoran</dt>
                         <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ochre md:text-[32px]">{{ Angka::rupiah($statistik['nilai']) }}</dd>
                     </div>
                     <div class="border-t border-stone py-4 md:border-t-0 md:py-5 md:pl-6">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Bank sampah aktif</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Bank sampah aktif</dt>
                         <dd class="mt-1 font-mono text-[28px] font-medium leading-none text-ink md:text-[32px]">{{ $statistik['bank'] }}</dd>
                     </div>
                 </dl>
@@ -122,8 +123,8 @@
         </section>
 
         <section aria-labelledby="judul-peran" class="mx-auto max-w-[1100px] px-4 py-16 md:px-6 md:py-24">
-            <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-stone pb-4">
-                <h2 id="judul-peran" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Lima peran, satu rantai</h2>
+            <div class="judul-seksi flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-b-stone pb-4">
+                <h2 id="judul-peran" class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Lima peran, satu rantai</h2>
                 <p class="text-[13px] leading-[1.4] text-muted">Setiap peran punya halaman kerjanya sendiri.</p>
             </div>
             <ol>
@@ -138,8 +139,8 @@
         </section>
 
         <section aria-labelledby="judul-fitur" class="mx-auto max-w-[1100px] px-4 pb-16 md:px-6 md:pb-24">
-            <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-                <h2 id="judul-fitur" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Enam fitur unggulan</h2>
+            <div class="judul-seksi flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+                <h2 id="judul-fitur" class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Enam fitur unggulan</h2>
                 <p class="text-[13px] leading-[1.4] text-muted">Tiga sudah jalan di data demo, tiga masih dibangun.</p>
             </div>
             <ol class="mt-4">
@@ -148,21 +149,21 @@
                         <span class="font-mono text-[12px] leading-[1.6] text-muted" aria-hidden="true">0{{ $loop->iteration }}</span>
                         <h3 class="text-[17px] font-semibold leading-[1.4] text-ink">{{ $item[0] }}</h3>
                         <p class="max-w-[64ch] text-[15px] leading-[1.6] text-muted">{{ $item[1] }}</p>
-                        <p class="font-mono text-[12px] leading-[1.6] text-muted md:text-right">{{ $item[2] }}</p>
+                        <p class="font-mono text-[12px] uppercase leading-[1.6] tracking-[0.06em] text-muted md:text-right">{{ $item[2] }}</p>
                     </li>
                 @endforeach
             </ol>
         </section>
 
         <section aria-labelledby="judul-alur" class="mx-auto max-w-[1100px] px-4 pb-20 md:px-6 md:pb-32">
-            <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-                <h2 id="judul-alur" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Dari rumah warga ke pabrik</h2>
+            <div class="judul-seksi flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
+                <h2 id="judul-alur" class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Dari rumah warga ke pabrik</h2>
                 <p class="text-[13px] leading-[1.4] text-muted">Contoh dari data demo Desa Sukamaju.</p>
             </div>
 
             <div class="mt-8 grid grid-cols-1 gap-x-4 gap-y-5 md:mt-10 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-stretch md:gap-y-4">
                 <div class="rounded-card border border-stone bg-paper p-4 md:p-5">
-                    <p class="font-mono text-[12px] leading-[1.4] text-muted">{{ $alur[0][0] }}</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $alur[0][0] }}</p>
                     <h3 class="mt-1 font-display text-[18px] font-medium leading-[1.4] text-ink">{{ $alur[0][1] }}</h3>
                     <p class="mt-2 max-w-[48ch] text-[15px] leading-[1.6] text-muted">{{ $alur[0][2] }}</p>
                 </div>
@@ -175,7 +176,7 @@
                 </div>
 
                 <div class="rounded-card border border-stone bg-paper p-4 md:p-5">
-                    <p class="font-mono text-[12px] leading-[1.4] text-muted">{{ $alur[1][0] }}</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $alur[1][0] }}</p>
                     <h3 class="mt-1 font-display text-[18px] font-medium leading-[1.4] text-ink">{{ $alur[1][1] }}</h3>
                     <p class="mt-2 max-w-[48ch] text-[15px] leading-[1.6] text-muted">{{ $alur[1][2] }}</p>
                 </div>
@@ -188,7 +189,7 @@
                 </div>
 
                 <div class="rounded-card border border-stone bg-paper p-4 md:p-5">
-                    <p class="font-mono text-[12px] leading-[1.4] text-muted">{{ $alur[2][0] }}</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $alur[2][0] }}</p>
                     <h3 class="mt-1 font-display text-[18px] font-medium leading-[1.4] text-ink">{{ $alur[2][1] }}</h3>
                     <p class="mt-2 max-w-[48ch] text-[15px] leading-[1.6] text-muted">{{ $alur[2][2] }}</p>
                 </div>
@@ -215,18 +216,18 @@
                 </div>
 
                 <nav aria-labelledby="footer-navigasi">
-                    <p id="footer-navigasi" class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Navigasi</p>
+                    <p id="footer-navigasi" class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Navigasi</p>
                     <ul class="mt-3">
-                        <li><a href="{{ route('landing') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Beranda</a></li>
-                        <li><a href="{{ route('tracking.form') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Lacak sampah</a></li>
-                        <li><a href="{{ route('warga.estimasi') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Perkiraan nilai setoran</a></li>
-                        <li><a href="{{ route('mitra.katalog') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Katalog bahan baku</a></li>
-                        <li><a href="{{ route('login') }}" class="flex min-h-11 items-center text-[13px] leading-none text-ink decoration-1 decoration-forest underline-offset-4 hover:text-forest hover:underline md:min-h-9">Masuk</a></li>
+                        <li><a href="{{ route('landing') }}" class="tautan-garis tautan-garis-nav flex min-h-11 items-center text-[13px] leading-none text-ink hover:text-forest md:min-h-9">Beranda</a></li>
+                        <li><a href="{{ route('tracking.form') }}" class="tautan-garis tautan-garis-nav flex min-h-11 items-center text-[13px] leading-none text-ink hover:text-forest md:min-h-9">Lacak sampah</a></li>
+                        <li><a href="{{ route('warga.estimasi') }}" class="tautan-garis tautan-garis-nav flex min-h-11 items-center text-[13px] leading-none text-ink hover:text-forest md:min-h-9">Perkiraan nilai setoran</a></li>
+                        <li><a href="{{ route('mitra.katalog') }}" class="tautan-garis tautan-garis-nav flex min-h-11 items-center text-[13px] leading-none text-ink hover:text-forest md:min-h-9">Katalog bahan baku</a></li>
+                        <li><a href="{{ route('login') }}" class="tautan-garis tautan-garis-nav flex min-h-11 items-center text-[13px] leading-none text-ink hover:text-forest md:min-h-9">Masuk</a></li>
                     </ul>
                 </nav>
 
                 <div>
-                    <p class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Fitur Utama</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Fitur Utama</p>
                     <ul class="mt-3 space-y-1.5">
                         @foreach ($fitur as $item)
                             <li class="text-[13px] leading-[1.6] text-muted">{{ $item[0] }}</li>
@@ -235,7 +236,7 @@
                 </div>
 
                 <div>
-                    <p class="text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Informasi</p>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Informasi</p>
                     <ul class="mt-3 space-y-1.5">
                         <li class="text-[13px] leading-[1.6] text-muted">Data demo: akun pengguna, bank sampah, dan setoran ditanam lewat seeder.</li>
                         <li class="text-[13px] leading-[1.6] text-muted">Tiga fitur sudah jalan di demo, tiga masih dibangun.</li>
@@ -247,7 +248,7 @@
 
         <div class="border-t border-stone">
             <div class="mx-auto max-w-[1100px] px-4 py-5 md:px-6">
-                <p class="text-[12px] leading-[1.4] text-muted">&copy; 2026 Desa Sirkular. Dibangun untuk KRENOVA UNISRI.</p>
+                <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">&copy; 2026 Desa Sirkular. Dibangun untuk KRENOVA UNISRI.</p>
             </div>
         </div>
     </footer>

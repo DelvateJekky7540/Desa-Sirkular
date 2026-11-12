@@ -1,0 +1,87 @@
+{
+ "note": "Credits for the photographs in this folder: photos.mjs credits prints the footer block for the ones the pages use.",
+ "photos": [
+  {
+   "file": "photo-f150332036-960.jpg",
+   "files": [
+    "photo-f150332036-500.jpg",
+    "photo-f150332036-960.jpg"
+   ],
+   "id": "f150332036",
+   "alt": "Bali, Rice fields, Rice terraces in East Bali, Indonesia",
+   "by": "Vyacheslav Argenberg",
+   "licence": "CC BY 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Bali,_Rice_fields,_Rice_terraces_in_East_Bali,_Indonesia.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f151592383-500.jpg",
+   "files": [
+    "photo-f151592383-500.jpg"
+   ],
+   "id": "f151592383",
+   "alt": "Greenville Public Works, ECVC Recycling Sorting facility - 04",
+   "by": "Greenville, NC",
+   "licence": "Public domain",
+   "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Greenville_Public_Works,_ECVC_Recycling_Sorting_facility_-_04.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f74003578-960.jpg",
+   "files": [
+    "photo-f74003578-500.jpg",
+    "photo-f74003578-960.jpg"
+   ],
+   "id": "f74003578",
+   "alt": "Woman weaving a bamboo basket, Tasikmalaya",
+   "by": "Abdulrohmatt",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Woman_weaving_a_bamboo_basket,_Tasikmalaya.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f133641534-960.jpg",
+   "files": [
+    "photo-f133641534-500.jpg",
+    "photo-f133641534-960.jpg"
+   ],
+   "id": "f133641534",
+   "alt": "Organic farming in Richmond, Virginia.",
+   "by": "Lance Cheung/USDA",
+   "licence": "Public domain",
+   "licenceUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+   "page": "https://commons.wikimedia.org/wiki/File:Organic_farming_in_Richmond,_Virginia_(9284).jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f196214799-960.jpg",
+   "files": [
+    "photo-f196214799-500.jpg",
+    "photo-f196214799-960.jpg"
+   ],
+   "id": "f196214799",
+   "alt": "Residential rooftop photovoltaic array of four panels in Syria",
+   "by": "Hayan Alhasan",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Residential_rooftop_photovoltaic_array_of_four_panels_in_Syria.jpg",
+   "source": "Wikimedia Commons"
+  },
+  {
+   "file": "photo-f36544663-500.jpg",
+   "files": [
+    "photo-f36544663-500.jpg"
+   ],
+   "id": "f36544663",
+   "alt": "Balinese Traditional House",
+   "by": "Michael Gunther",
+   "licence": "CC BY-SA 4.0",
+   "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+   "page": "https://commons.wikimedia.org/wiki/File:Balinese_Traditional_House.jpg",
+   "source": "Wikimedia Commons"
+  }
+ ]
+}

@@ -20,7 +20,7 @@
         </p>
 
         <div class="mt-6 rounded-card border border-stone bg-paper p-5">
-            <h1 class="font-display text-[24px] font-medium leading-[1.25] text-ink md:text-[26px]">Masuk ke sistem</h1>
+            <h1 class="judul-seksi font-display text-[24px] font-semibold leading-[1.25] text-ink md:text-[26px]">Masuk ke sistem</h1>
             <p class="mt-2 text-[15px] leading-[1.6] text-muted">Pakai akun yang sudah diberikan pengelola desa.</p>
 
             @if (auth()->check())
@@ -44,7 +44,7 @@
                 @csrf
 
                 <div>
-                    <label for="email" class="block text-[13px] font-medium leading-[1.4] text-ink">Email</label>
+                    <label for="email" class="label-form">Email</label>
                     <input
                         id="email"
                         name="email"
@@ -61,7 +61,7 @@
                 </div>
 
                 <div>
-                    <label for="password" class="block text-[13px] font-medium leading-[1.4] text-ink">Kata sandi</label>
+                    <label for="password" class="label-form">Kata sandi</label>
                     <input
                         id="password"
                         name="password"
@@ -79,15 +79,15 @@
                 <div class="pt-1">
                     <button
                         type="submit"
-                        class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px"
+                        class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px"
                     >
                         Masuk
                     </button>
                 </div>
             </form>
 
-            <div class="mt-6 border-t border-stone pt-5">
-                <p class="text-[13px] font-medium leading-[1.4] text-ink">Masuk cepat, akun demo</p>
+            <div class="mt-6 border-t-2 border-t-forest pt-5">
+                <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Masuk cepat, akun demo</p>
                 <p class="mt-1 text-[12px] leading-[1.4] text-muted">Sekali klik langsung masuk ke halaman peran terkait, tanpa mengisi kata sandi.</p>
 
                 <div class="mt-3 grid grid-cols-2 gap-2">
@@ -96,7 +96,7 @@
                             @csrf
                             <button
                                 type="submit"
-                                class="inline-flex h-11 w-full items-center justify-center rounded-control border border-stone bg-paper px-3 text-[14px] font-medium leading-none text-ink hover:border-moss hover:bg-[#F0EDE4] active:translate-y-px"
+                                class="inline-flex h-11 w-full items-center justify-center rounded-control border border-stone bg-paper px-3 text-[14px] font-medium leading-none text-ink transition-colors duration-150 hover:border-forest hover:bg-forest hover:text-bone active:translate-y-px"
                             >
                                 {{ $demo['label'] }}
                             </button>
@@ -111,7 +111,7 @@
         </div>
 
         <p class="mt-4 text-center text-[13px] leading-[1.4] text-muted">
-            <a href="{{ route('landing') }}" class="font-medium text-forest underline underline-offset-4 hover:decoration-2">Kembali ke halaman utama</a>
+            <a href="{{ route('landing') }}" class="tautan-garis font-medium text-forest">Kembali ke halaman utama</a>
         </p>
     </main>
 </body>

@@ -9,7 +9,7 @@
     {!! Vite::fonts() !!}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen">
+<body class="flex min-h-screen flex-col">
     <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
         Lewati ke isi halaman
     </a>
@@ -23,12 +23,12 @@
                 <a
                     href="{{ route('tracking.form') }}"
                     @if (request()->route()?->getName() === 'tracking.form') aria-current="page" @endif
-                    class="inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest"
+                    class="tautan-garis tautan-garis-nav inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest"
                 >
                     Lacak sampah
                 </a>
                 @guest
-                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-4 text-[13px] font-medium leading-none text-ink hover:border-moss">
+                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-4 text-[13px] font-medium leading-none text-ink transition-colors duration-150 hover:border-forest hover:bg-forest hover:text-bone">
                         Masuk
                     </a>
                 @else
@@ -39,7 +39,7 @@
         </div>
     </header>
 
-    <main id="konten" tabindex="-1" class="mx-auto w-full max-w-[720px] px-4 pb-16 pt-10 md:px-6 md:pb-24 md:pt-14">
+    <main id="konten" tabindex="-1" class="mx-auto w-full max-w-[720px] flex-1 px-4 pb-16 pt-10 md:px-6 md:pb-24 md:pt-14">
         @include('partials.flash')
         @yield('content')
     </main>
@@ -49,7 +49,7 @@
             <div>
                 <p class="font-display text-[16px] font-medium leading-none text-forest">Desa Sirkular</p>
                 <p class="mt-1.5 text-[12px] leading-[1.4] text-muted">Ekonomi sirkular sampah desa. Dibangun untuk Desa Sukamaju.</p>
-                <a href="{{ route('tracking.form') }}" class="mt-1 inline-flex min-h-11 items-center text-[12px] font-medium leading-none text-forest underline underline-offset-4 hover:decoration-2">
+                <a href="{{ route('tracking.form') }}" class="tautan-garis mt-1 inline-flex min-h-11 items-center text-[12px] font-medium leading-none text-forest">
                     Lacak sampah
                 </a>
             </div>

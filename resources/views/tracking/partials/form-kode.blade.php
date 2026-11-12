@@ -5,7 +5,7 @@
         </div>
     @endif
 
-    <label for="kode" class="block text-[13px] font-medium leading-[1.4] text-ink">Kode setoran</label>
+    <label for="kode" class="label-form">Kode setoran</label>
     <input
         id="kode"
         name="kode"
@@ -20,7 +20,7 @@
 
     <button
         type="submit"
-        class="mt-4 inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px md:w-auto"
+        class="mt-4 inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px md:w-auto"
     >
         Lacak setoran
     </button>

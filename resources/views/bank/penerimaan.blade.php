@@ -18,17 +18,18 @@
         </div>
     @endif
 
-    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-stone pb-4">
+    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-t-2 border-t-forest border-b border-b-stone pt-4 pb-4">
         <div>
-            <h1 class="font-display text-[26px] font-medium leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Catat setoran sampah</h1>
+            <p class="mb-2 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Penerimaan setoran, Desa Sukamaju</p>
+            <h1 class="font-display text-[26px] font-semibold leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Catat setoran sampah</h1>
             <p class="mt-2 max-w-[64ch] text-[15px] leading-[1.6] text-muted">
                 Timbang sampah warga, isi harga per kilogram, lalu simpan. Setoran baru masuk antrean menunggu timbang.
             </p>
             <p class="mt-1 text-[13px] leading-[1.4] text-muted">
-                <a href="{{ route('bank.penimbangan') }}" class="font-medium text-forest underline underline-offset-4 hover:decoration-2">Buka antrean penimbangan</a>
+                <a href="{{ route('bank.penimbangan') }}" class="tautan-garis font-medium text-forest">Buka antrean penimbangan</a>
             </p>
         </div>
-        <p class="text-[13px] leading-[1.4] text-muted">
+        <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">
             {{ now()->locale('id')->translatedFormat('l, j F Y') }}
         </p>
     </div>
@@ -36,7 +37,7 @@
     <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
         <section aria-labelledby="judul-form" class="lg:col-span-7">
             <div class="rounded-card border border-stone bg-paper p-4 md:p-5">
-                <h2 id="judul-form" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Form timbang</h2>
+                <h2 id="judul-form" class="judul-seksi font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Form timbang</h2>
 
                 @if ($errors->any())
                     <div role="alert" class="mt-4 border border-stone border-l-[3px] border-l-brick bg-bone px-4 py-3">
@@ -60,7 +61,7 @@
                     @csrf
 
                     <div>
-                        <label for="masyarakat_id" class="block text-[13px] font-medium leading-[1.4] text-ink">Warga</label>
+                        <label for="masyarakat_id" class="label-form">Warga</label>
                         @if ($daftarWarga->isEmpty())
                             <p class="mt-2 border border-stone bg-bone px-3 py-2 text-[13px] leading-[1.5] text-muted">
                                 Belum ada data warga. Tambahkan warga dulu, lalu kembali ke halaman ini.
@@ -87,7 +88,7 @@
 
                     <div class="space-y-3">
                         <div>
-                            <label for="jenis_sampah" class="block text-[13px] font-medium leading-[1.4] text-ink">Jenis sampah</label>
+                            <label for="jenis_sampah" class="label-form">Jenis sampah</label>
                             <select
                                 id="jenis_sampah"
                                 name="jenis_sampah_id"
@@ -106,7 +107,7 @@
                         </div>
 
                         <div>
-                            <label for="berat" class="block text-[13px] font-medium leading-[1.4] text-ink">Berat</label>
+                            <label for="berat" class="label-form">Berat</label>
                             <div class="relative mt-2">
                                 <input
                                     id="berat"
@@ -130,7 +131,7 @@
                     </div>
 
                     <div>
-                        <label for="harga_per_kg" class="block text-[13px] font-medium leading-[1.4] text-ink">Harga per kilogram</label>
+                        <label for="harga_per_kg" class="label-form">Harga per kilogram</label>
                         <div class="relative mt-2">
                             <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[13px] text-muted" aria-hidden="true">Rp</span>
                             <input
@@ -154,7 +155,7 @@
                     </div>
 
                     <div>
-                        <label for="catatan" class="block text-[13px] font-medium leading-[1.4] text-ink">Catatan</label>
+                        <label for="catatan" class="label-form">Catatan</label>
                         <textarea
                             id="catatan"
                             name="catatan"
@@ -171,7 +172,7 @@
                     </div>
 
                     <div class="flex items-baseline justify-between gap-4 border-t border-stone pt-3">
-                        <p class="text-[13px] leading-[1.4] text-muted">Perkiraan nilai setoran</p>
+                        <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Perkiraan nilai setoran</p>
                         <p id="estimasi-nilai" aria-live="polite" class="font-mono text-[28px] font-medium leading-none text-ochre">{{ Angka::rupiah($estimasiAwal) }}</p>
                     </div>
 
@@ -180,7 +181,7 @@
                             type="submit"
                             data-submit
                             @disabled($daftarWarga->isEmpty() || $daftarJenis->isEmpty() || $bankAktif === null)
-                            class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60 md:w-auto"
+                            class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px disabled:bg-forest/60 md:w-auto"
                         >
                             <span data-submit-label>Catat setoran</span>
                         </button>
@@ -193,33 +194,33 @@
 
         <aside aria-labelledby="judul-ringkasan" class="lg:col-span-5">
             <div class="rounded-card border border-stone bg-paper p-4 md:p-5">
-                <div class="flex items-baseline justify-between gap-3">
-                    <h2 id="judul-ringkasan" class="font-display text-[20px] font-medium leading-[1.3] text-ink md:text-[24px]">Ringkasan hari ini</h2>
-                    <p class="font-mono text-[12px] leading-[1.4] text-muted">{{ now()->format('d.m.Y') }}</p>
+                <div class="judul-seksi flex items-baseline justify-between gap-3">
+                    <h2 id="judul-ringkasan" class="font-display text-[20px] font-semibold leading-[1.3] text-ink md:text-[24px]">Ringkasan hari ini</h2>
+                    <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ now()->format('d.m.Y') }}</p>
                 </div>
 
                 <dl class="mt-4 divide-y divide-stone border-t border-stone">
                     <div class="flex items-baseline justify-between gap-3 py-3">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Setoran tercatat</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Setoran tercatat</dt>
                         <dd class="font-mono text-[20px] font-medium leading-none text-ink">{{ $ringkasan['jumlah'] }}</dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3 py-3">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Total berat</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Total berat</dt>
                         <dd class="font-mono text-[20px] font-medium leading-none text-ink">{{ Angka::kg($ringkasan['berat']) }}</dd>
                     </div>
                     <div class="flex items-baseline justify-between gap-3 py-3">
-                        <dt class="text-[13px] leading-[1.4] text-muted">Nilai setoran</dt>
+                        <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Nilai setoran</dt>
                         <dd class="font-mono text-[28px] font-medium leading-none text-ochre">{{ Angka::rupiah($ringkasan['nilai']) }}</dd>
                     </div>
                 </dl>
 
                 <p class="mt-3 text-[12px] leading-[1.4] text-muted">Nilai memakai harga acuan per kilogram saat setoran dicatat.</p>
 
-                <div class="mt-5 border-t border-stone pt-4">
+                <div class="mt-5 border-t-2 border-t-forest pt-4">
                     <div class="flex items-baseline justify-between gap-3">
                         <h3 class="text-[17px] font-semibold leading-[1.4] text-ink md:text-[18px]">Riwayat hari ini</h3>
                         @if (! $riwayatError)
-                            <p class="text-[12px] leading-[1.4] text-muted">{{ $jumlahRiwayat }} setoran</p>
+                            <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $jumlahRiwayat }} setoran</p>
                         @endif
                     </div>
 
@@ -227,7 +228,7 @@
                         <div role="alert" class="mt-3 border border-stone border-l-[3px] border-l-brick bg-bone px-4 py-4">
                             <p class="text-[14px] font-medium leading-[1.5] text-ink">Riwayat belum bisa ditampilkan.</p>
                             <p class="mt-1 text-[13px] leading-[1.5] text-muted">{{ $riwayatError }}</p>
-                            <a href="{{ route('bank.penerimaan') }}" class="mt-2 inline-flex h-11 items-center text-[13px] font-medium text-forest underline underline-offset-4 hover:decoration-2">Muat ulang halaman</a>
+                            <a href="{{ route('bank.penerimaan') }}" class="tautan-garis mt-2 inline-flex h-11 items-center text-[13px] font-medium text-forest">Muat ulang halaman</a>
                         </div>
                     @elseif ($riwayat->isEmpty())
                         <div class="mt-3 border border-stone bg-bone px-4 py-5">
@@ -255,14 +256,14 @@
                                 <tbody>
                                     @foreach ($riwayat as $setoran)
                                         @php $detail = $setoran->detailSampah->first(); @endphp
-                                        <tr class="h-11 border-b border-stone align-middle hover:bg-[#F0EDE4]">
+                                        <tr class="h-12 border-b border-stone align-middle transition-colors hover:bg-[#F0EDE4]">
                                             <td class="py-2 pr-2">
                                                 <span class="block text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</span>
-                                                <span class="block font-mono text-[11px] leading-[1.4] text-muted">{{ $setoran->created_at->format('H:i') }}</span>
+                                                <span class="block font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">{{ $setoran->created_at->format('H:i') }}</span>
                                             </td>
                                             <td class="py-2 pr-2 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</td>
-                                            <td class="py-2 pl-2 text-right font-mono text-[14px] text-ink">{{ Angka::kg($setoran->total_berat) }}</td>
-                                            <td class="py-2 pl-2 text-right font-mono text-[14px] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</td>
+                                            <td class="py-2 pl-2 text-right font-mono text-[15px] font-medium text-ink">{{ Angka::kg($setoran->total_berat) }}</td>
+                                            <td class="py-2 pl-2 text-right font-mono text-[15px] font-medium text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -272,14 +273,14 @@
                         <ul class="md:hidden">
                             @foreach ($riwayat as $setoran)
                                 @php $detail = $setoran->detailSampah->first(); @endphp
-                                <li class="border-b border-stone py-3">
+                                <li class="border-b border-stone py-4 transition-colors hover:bg-[#F0EDE4]">
                                     <div class="flex items-baseline justify-between gap-3">
                                         <p class="text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
-                                        <p class="font-mono text-[14px] leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</p>
+                                        <p class="font-mono text-[15px] font-medium leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</p>
                                     </div>
                                     <div class="mt-0.5 flex items-baseline justify-between gap-3 text-[12px] leading-[1.4] text-muted">
-                                        <p>{{ $setoran->created_at->format('H:i') }}, {{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</p>
-                                        <p class="font-mono text-[14px] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</p>
+                                        <p class="font-mono text-[11px] uppercase tracking-[0.08em]">{{ $setoran->created_at->format('H:i') }}, {{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</p>
+                                        <p class="font-mono text-[15px] font-medium text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</p>
                                     </div>
                                 </li>
                             @endforeach

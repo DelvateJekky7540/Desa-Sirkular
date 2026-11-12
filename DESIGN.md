@@ -5,52 +5,47 @@ Anti-slop = filter. File ini = arah. Jika ragu, ikuti file ini, bukan intuisi.
 
 ---
 
-## 1. Produk
+## 1. Produk & Konteks
 
 Platform ekonomi sirkular sampah desa. Menghubungkan warga, bank sampah, mitra daur ulang, dan pemerintah desa.
 
 - **Pusat operasional:** Bank Sampah (mesin transaksi).
 - **Pemdes:** governance layer (monitoring, peta, kebijakan).
-- **Bentuk:** Website responsif. Mobile-first untuk Warga dan Petugas. Desktop-dense untuk Admin, Bank, Mitra.
+- **Bentuk:** Website responsif. 
 - **Desa sasaran:** Sudah punya bank sampah dan pengepul aktif.
 - **Tagline internal:** "Sampah desa, rantai yang tidak putus."
-- **Fitur unggulan (wajib punya tampilan):** Smart Waste Mapping, Waste Value Calculator, Waste Matching System, Waste Tracking, Environmental Impact Dashboard, Waste Recommendation.
+
+**PENTING - Dua Tipe Halaman:**
+1. **Landing Page (Public):** Butuh visual premium, menarik, dan memukau untuk meyakinkan investor/mitra. Fokus pada estetika mewah dan storytelling.
+2. **App/Dashboard (Internal):** Butuh visual padat, presisi, seperti laporan bank, dan fokus pada keterbacaan data.
 
 ---
 
-## 2. Mood
+## 2. Mood & Arah Visual
 
-"Laporan desa yang dibuat dengan teliti." Tenang, presisi, hangat, dapat dipercaya.
+"Mewah, tenang, dan presisi." Terasa seperti *wealth management* atau *eco-luxury resort*, bukan startup teknologi biasa.
 
 **BUKAN:** eco-startup gradient hijau, dashboard SaaS biru-putih, poster kampanye lingkungan, fintech dengan confetti.
-
-**Referensi rasa:** Linear (presisi), laporan Bank Indonesia (warm off-white + angka mono), Notion (hangat editorial), Stripe Docs (hierarki tipografi).
+**Referensi rasa:** Stripe (kebersihan), Aesop (premium & earthy), Linear (presisi).
 
 ---
 
-## 3. Palet Warna, Commit
+## 3. Palet Warna (Hijau & Putih Premium)
 
 | Peran | Hex | Nama | Pemakaian |
 | :--- | :--- | :--- | :--- |
-| Base | `#F6F4EE` | Warm Bone | Kanvas seluruh halaman |
-| Surface | `#FFFFFF` | Paper | HANYA card data, form, tabel, modal |
-| Ink | `#1B211C` | Forest Ink | Teks utama |
-| Ink Muted | `#5A6357` | Netral | Teks sekunder, label, placeholder |
-| Primary | `#2E4A3B` | Deep Forest | Tombol utama, heading besar, nav aktif, focus ring |
-| Primary Hover | `#243A2E` | Hover | Hover tombol Primary |
-| Secondary | `#7C8B62` | Moss | Tag netral, chart sekunder, border kiri status |
-| Support | `#A8B892` | Sage | Background tag halus, area chart fill |
-| Accent | `#B8733A` | Burnt Ochre | HANYA nilai ekonomi (Rupiah), highlight angka kunci |
-| Border | `#E2DED3` | Stone | Border 1px tabel, card, input, divider |
-| Danger | `#A23A2A` | Brick | Error, gagal, hapus |
-| Warning | `#C9A227` | Mustard | Menunggu, peringatan |
-| Success | `#4A6B4E` | Sukses | Selesai, berhasil, aktif |
+| Base | `#FAFAFA` | Pure Off-White | Kanvas utama seluruh halaman (bersih, tidak menyilaukan). |
+| Surface | `#FFFFFF` | Pure White | Card data, form, tabel, modal (agar terlihat terangkat). |
+| Ink | `#111827` | Almost Black | Teks utama paragraf. |
+| Primary | `#064E3B` | Deep Emerald | Tombol utama, heading besar, nav aktif. Boleh dipakai sebagai background full-bleed khusus Landing Page. |
+| Secondary | `#059669` | Vibrant Emerald | Ikon, aksen garis, chart sekunder, hover state. |
+| Accent | `#D4AF37` | Champagne Gold | HANYA untuk nilai ekonomi (Rupiah), highlight angka kunci, dan tombol CTA di Landing Page. Maksimal 3 kemunculan per layar. |
+| Border | `#E5E7EB` | Light Gray | Border 1px tabel, card, input, divider. |
 
-**Aturan:**
-1. Hijau = fungsi, bukan dekorasi. Hemat.
-2. Ochre = pembeda. Maks 2 sampai 3 kemunculan per layar. Hanya untuk angka ekonomi dan highlight.
-3. Warm Bone = 70% layar. Putih hanya untuk permukaan yang perlu "angkat".
-4. Gradient dilarang total. Hero background full-green dilarang.
+**Aturan Warna:**
+1. **Gradient dilarang total** di semua halaman.
+2. Hijau = fungsi, Emas = pembeda (premium). Hemat penggunaan emas.
+3. Putih Off-White = 70% layar.
 
 ---
 
@@ -58,153 +53,96 @@ Platform ekonomi sirkular sampah desa. Menghubungkan warga, bank sampah, mitra d
 
 | Peran | Font | Weight |
 | :--- | :--- | :--- |
-| Display | Fraunces | 400, 500, 600 |
-| Body/UI | Public Sans | 400, 500, 600 |
+| Display (Heading) | Playfair Display | 500, 600, 700 |
+| Body/UI | Plus Jakarta Sans | 400, 500, 600 |
 | Mono | JetBrains Mono | 400, 500 |
 
-Fallback:
-display: Fraunces, Georgia, serif;
-body: 'Public Sans', system-ui, sans-serif;
-mono: 'JetBrains Mono', ui-monospace, monospace;
+Fallback & Import:
+- Wajib import dari Google Fonts: `Playfair Display` & `Plus Jakarta Sans`.
+- display: 'Playfair Display', Georgia, serif;
+- body: 'Plus Jakarta Sans', system-ui, sans-serif;
+- mono: 'JetBrains Mono', ui-monospace, monospace;
 
-text
-
-**Skala:**
-
-| Token | Desktop | Mobile | Font | Pakai |
-| :--- | :--- | :--- | :--- | :--- |
-| display | 48/1.1 | 32/1.15 | Fraunces 500 | Headline hero |
-| h1 | 32/1.2 | 26/1.25 | Fraunces 500 | Judul halaman |
-| h2 | 24/1.3 | 20/1.3 | Fraunces 500 | Judul section |
-| h3 | 18/1.4 | 17/1.4 | Public Sans 600 | Sub-judul card |
-| body | 15/1.6 | 15/1.6 | Public Sans 400 | Paragraf |
-| label | 13/1.4 | 13/1.4 | Public Sans 500 | Label form, header tabel |
-| caption | 12/1.4 | 12/1.4 | Public Sans 400 | Helper text |
-| mono-lg | 32/1.1 | 28/1.1 | JetBrains Mono 500 | Saldo, angka kunci |
-| mono | 14/1.4 | 14/1.4 | JetBrains Mono 400 | Berat, harga, ID |
-
-Jarak heading ke paragraf: min 8px, ideal 12px.
+**Skala Tipografi:**
+| Token | Desktop (Landing) | Desktop (App) | Mobile | Font | Pakai |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **hero** | **64/1.1** | - | 40/1.15 | Playfair Display 700 | Headline Landing Page |
+| display | 48/1.1 | 32/1.2 | 32/1.15 | Playfair Display 600 | Headline section |
+| h1 | 36/1.2 | 28/1.2 | 26/1.25 | Playfair Display 600 | Judul halaman |
+| h2 | 28/1.3 | 22/1.3 | 20/1.3 | Playfair Display 600 | Judul section |
+| h3 | 18/1.4 | 18/1.4 | 17/1.4 | Plus Jakarta Sans 600 | Sub-judul card |
+| body | 16/1.6 | 15/1.6 | 15/1.6 | Plus Jakarta Sans 400 | Paragraf |
+| label | 13/1.4 | 13/1.4 | 13/1.4 | Plus Jakarta Sans 500 | Label form |
+| mono-lg | 32/1.1 | 32/1.1 | 28/1.1 | JetBrains Mono 500 | Saldo, angka kunci |
 
 ---
 
 ## 5. Sistem Visual
 
-**Radius:** 4px card data dan tabel. 8px tombol dan input. 999px HANYA status chip. Dilarang rounded-2xl atau rounded-3xl untuk card.
+**Radius:**
+- **Landing Page:** 12px untuk Card, 8px untuk tombol/input. Dilarang rounded-2xl (16px+) atau pill-shaped kecuali untuk badge.
+- **App/Dashboard:** 4px untuk card data dan tabel, 8px untuk tombol/input.
 
-**Shadow:** default tidak ada. Pemisah = border 1px #E2DED3. Elevasi hanya dropdown atau modal: 0 4px 12px rgba(27,33,28,0.06). Dilarang shadow-lg atau shadow-xl pada card.
+**Shadow:**
+- **Landing Page:** Boleh menggunakan shadow halus untuk membuat card terlihat premium: `0 8px 24px rgba(6,78,59,0.06)`.
+- **App/Dashboard:** Default tidak ada shadow. Pemisah = border 1px `#E5E7EB`. Elevasi hanya untuk dropdown/modal.
 
 **Spacing:** 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 96.
 - Gap form: 12px
-- Padding card: 20px desktop, 16px mobile
-- Section: variasikan 48 sampai 96. Dilarang semua py-16.
+- Padding card: 24px desktop, 16px mobile
+- Section: variasikan 64 sampai 96 untuk Landing Page. Dilarang semua `py-16`.
 
-**Ikon:** Phosphor Icons (regular). Nav 20px, inline 16px. Dilarang emoji di UI. Status chip pakai teks, bukan ikon.
+**Ikon:** 
+- Gunakan Phosphor Icons atau SVG inline (stroke 1.5px). 
+- Dilarang emoji di UI. Status chip pakai teks, bukan ikon.
 
 **Layout:**
-- Desktop admin, bank, mitra: 12-col, max-width 1280px, gutter 24px, baris tabel 40 sampai 44px.
-- Mobile warga, petugas: 4-col, gutter 16px, card 88 sampai 120px, tap target minimal 44px.
-
-**Tabel:**
-- Header: Public Sans 500, 13px, Ink Muted, uppercase, letter-spacing 0.02em.
-- Baris: Public Sans 400, 14px, Ink, tinggi 44px, border-bottom 1px Stone.
-- Angka berat dan harga: JetBrains Mono, rata kanan.
-- Hover baris: #F0EDE4.
+- **Landing Page:** Max-width 1200px, layout asimetris (kiri teks, kanan gambar/foto Unsplash), full-bleed background untuk section tertentu (misal: Deep Emerald).
+- **App Admin/Bank/Mitra:** 12-col, max-width 1280px, gutter 24px, baris tabel 40-44px.
+- **App Mobile:** 4-col, gutter 16px, tap target minimal 44px.
 
 ---
 
-## 6. Larangan Keras
+## 6. Larangan Keras (Pemisahan Konteks)
 
-1. Gradient apapun (hijau ke teal, hijau ke biru, dll).
-2. Background section full-green.
-3. Emoji di UI di manapun.
-4. Font Inter, Poppins, Montserrat, Roboto.
-5. Card rounded-2xl dan shadow-lg.
-6. Hero center, subtitle, 2 tombol, 3 feature card.
-7. Circular progress "X% didaur ulang" raksasa.
-8. Ilustrasi 3D globe, daun 3D, atau maskot.
-9. Stat card grid 2x2 ikon kecil pojok dan angka besar tengah.
-10. Copy marketing: "Unlock", "Seamless", "10x lebih cepat", "Revolusioner".
-11. Testimonial card avatar bulat dan 5 bintang.
-12. Navbar logo, 5 menu, "Get Started", dark mode toggle.
+**A. Berlaku untuk SEMUA Halaman (Landing & App):**
+1. Gradient warna apapun.
+2. Emoji di UI di manapun.
+3. Font selain Playfair Display, Plus Jakarta Sans, & JetBrains Mono.
+4. Ilustrasi 3D globe, daun 3D, atau maskot.
+5. Copy marketing slop: "Unlock", "Seamless", "10x lebih cepat", "Revolusioner".
+6. Testimonial card avatar bulat dan 5 bintang.
+7. Penggunaan Em Dash (—) di teks UI (gunakan koma, titik, atau titik dua).
+
+**B. KHUSUS Landing Page (Diperbolehkan, dilarang di App):**
+1. BOLEH menggunakan background section full-bleed Deep Emerald (#064E3B) dengan teks Pure Off-White (#FAFAFA).
+2. BOLEH menggunakan Hero Section asimetris (teks kiri, gambar/foto Unsplash kanan) dengan border-radius 12px.
+3. BOLEH menggunakan Card dengan shadow halus.
+4. BOLEH menggunakan tipografi Hero yang sangat besar (64px+).
+5. BOLEH menampilkan 3 feature card berjajar di bawah hero.
+
+**C. KHUSUS App/Dashboard:**
+1. Dilarang menggunakan card rounded lebih dari 8px.
+2. Dilarang menggunakan shadow besar pada tabel atau card.
+3. Dilarang membuat layout yang "lapang" (harus padat dan presisi).
 
 ---
 
-## 7. Copy
+## 7. Copywriting
 
 **Prinsip:**
 - Konkret, bukan abstrak.
 - Angka selalu dengan satuan: "Rp 34.500", "12 kg".
 - Nama Indonesia: Desa Sukamaju, Bank Sampah Sumber Rejeki, Mitra Plastik Jaya, Bu Siti, Pak Budi.
 - Status = keadaan: "Menunggu penjemputan", "Sudah ditimbang". Bukan "Status: 2".
-- Dilarang em dash di teks UI. Pakai koma, titik, titik dua, atau tanda kurung.
-
-**Contoh:**
-
-| Konteks | Slop | Anti-Slop |
-| :--- | :--- | :--- |
-| Saldo | "Total Balance: Rp 34.500" | "Saldo tabungan sampah: Rp 34.500" |
-| Estimasi | "Estimated Value: Rp 60.000" | "Perkiraan nilai setoran: Rp 60.000" |
-| Stok | "Available: 100 kg" | "Tersedia di Sumber Rejeki: 100 kg PET" |
-| Tombol | "Submit" | "Catat setoran" |
-| Empty | "No data" | "Belum ada setoran bulan ini. Mulai dari memilah botol plastik di rumah." |
-| Error | "Something went wrong" | "Berat sampah belum diisi. Isi dulu sebelum menyimpan." |
 
 ---
 
-## 8. Layout per Role
-
-**Admin Desa: laporan, bukan dashboard SaaS**
-Strip angka kunci horizontal (Total sampah, Didaur ulang, Nilai ekonomi), dipisah garis dasar 1px Stone, bukan card. Di bawahnya langsung tabel monitoring per bank sampah. Line chart tipis Moss, tanpa gridline tebal, tanpa gradient. Peta GIS di tab terpisah.
-
-**Bank Sampah: POS atau kasir**
-Dua kolom: form timbang (kiri 60%) dan ringkasan transaksi hari ini (kanan 40%). Berat di form: JetBrains Mono 32px di tengah. Satu tombol besar "Catat setoran" (Deep Forest). Riwayat = tabel rapat, bukan card.
-
-**Masyarakat: mobile-first, catatan pribadi**
-Header: saldo (mono besar) dan tombol "Setor" kecil di kanan. Card setoran terakhir: baris dengan border kiri 3px Moss. Estimasi nilai: hasil muncul dengan mono besar warna Burnt Ochre. Bottom nav: Beranda, Setor, Riwayat, Edukasi.
-
-**Mitra: marketplace datar**
-Grid list bahan baku (baris, bukan card besar): jenis, berat tersedia, lokasi bank, tombol "Ajukan". Filter di atas: jenis, jarak, berat min. Status chip: Menunggu, Disetujui, Ditolak.
-
-**Petugas: task list dan peta**
-Mobile-first. Daftar tugas = baris dengan status chip. Peta di tab terpisah, pin custom. Tombol besar "Selesai dan unggah bukti" di bottom sticky.
-
----
-
-## 9. Aksesibilitas
-
-- Kontras WCAG AA: 4.5:1 body, 3:1 heading besar.
-- Tap target minimal 44x44px di mobile.
-- Focus ring 2px solid #2E4A3B, offset 2px. Jangan hilangkan outline.
-- Setiap input punya label terlihat (bukan placeholder-only).
-- Status tidak hanya dibedakan warna, selalu ada teks.
-- Angka berat dan harga rata kanan, JetBrains Mono.
-
----
-
-## 10. Prinsip Anti-Slop
-
-1. Setiap keputusan visual punya alasan fungsional.
-2. Hijau hemat, Ochre terarah. Ragu, pakai Warm Bone, Ink, border.
-3. Border lebih penting dari Shadow. Tabel lebih penting dari Card grid. Konkret lebih penting dari Abstrak.
-4. Satu tombol besar per layar.
-5. Variasikan spacing antar section.
-6. Tidak ada elemen dekoratif tanpa fungsi (blob, orb, mesh, 3D).
-7. Mobile-first untuk Warga dan Petugas.
-8. Angka selalu mono dan satuan. Ini identitas visual produk.
-9. Copy konkret dengan nama Indonesia.
-10. Ragu antara dua pilihan, pilih yang lebih tenang.
-
----
-
-## 11. Cara AI Membaca File Ini
+## 8. Instruksi Eksekusi untuk AI
 
 Saat diminta membuat atau mengedit UI:
 
-1. Baca file ini sebelum menulis kode.
-2. Design Read 3 baris: ringkas arah visual.
-3. Sebutkan 2 pola slop yang akan dihindari di layar tersebut.
-4. Tulis kode.
-5. Jalankan Delivery Gate dari skill antislop, tampilkan PASS/FAIL.
-6. Jika FAIL, perbaiki dulu.
-
-Konflik antara instruksi user dan file ini, tanyakan. Jangan improvisasi palet, font, atau radius.
+1. **Tentukan Konteks:** Apakah ini Landing Page atau App/Dashboard? Baca Bagian 6.
+2. **Baca Aturan:** Patuhi palet warna, font, dan sistem visual.
+3. **Tulis Kode:** Jangan hanya menjelaskan. Langsung tulis ke file HTML/CSS.
+4. **Cek Visual:** Jika membuat Landing Page, pastikan hero terlihat premium dengan gambar dan tipografi besar. Jika membuat App, pastikan tabel rapat dan presisi.

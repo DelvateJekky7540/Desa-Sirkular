@@ -49,11 +49,19 @@
         <div class="mx-auto flex min-h-16 max-w-[1100px] items-center justify-between gap-4 px-4 md:px-6">
             <a href="{{ route('landing') }}" class="font-display text-[20px] font-medium leading-none text-forest">Desa Sirkular</a>
             @guest
-                <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-4 text-[13px] font-medium leading-none text-ink hover:border-moss">
-                    Masuk
-                </a>
+                <div class="flex items-center gap-3 md:gap-4">
+                    <a href="{{ route('tracking.form') }}" class="inline-flex h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest">
+                        Lacak sampah
+                    </a>
+                    <a href="{{ route('login') }}" class="inline-flex h-11 items-center justify-center rounded-control border border-stone bg-paper px-4 text-[13px] font-medium leading-none text-ink hover:border-moss">
+                        Masuk
+                    </a>
+                </div>
             @else
                 <div class="flex items-center gap-3">
+                    <a href="{{ route('tracking.form') }}" class="hidden h-11 items-center text-[13px] font-medium leading-none text-ink hover:text-forest sm:inline-flex">
+                        Lacak sampah
+                    </a>
                     <p class="text-[12px] leading-[1.4] text-muted">{{ auth()->user()?->nama }}</p>
                     @include('partials.keluar')
                 </div>
@@ -191,6 +199,9 @@
             <div>
                 <p class="font-display text-[16px] font-medium leading-none text-forest">Desa Sirkular</p>
                 <p class="mt-1.5 text-[12px] leading-[1.4] text-muted">Ekonomi sirkular sampah desa. Dibangun untuk Desa Sukamaju.</p>
+                <a href="{{ route('tracking.form') }}" class="mt-1 inline-flex min-h-11 items-center text-[12px] font-medium leading-none text-forest underline underline-offset-4 hover:decoration-2">
+                    Lacak sampah
+                </a>
             </div>
             <p class="text-[12px] leading-[1.4] text-muted">Data demo: akun pengguna, bank sampah, dan setoran ditanam lewat seeder.</p>
         </div>

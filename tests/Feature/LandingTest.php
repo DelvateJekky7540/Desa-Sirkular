@@ -58,6 +58,14 @@ class LandingTest extends TestCase
             ->assertSee('Rp 0');
     }
 
+    public function test_landing_menampilkan_tautan_lacak_sampah(): void
+    {
+        $this->get(route('landing'))
+            ->assertOk()
+            ->assertSee(route('tracking.form'))
+            ->assertSee('Lacak sampah');
+    }
+
     private function buatBank(): BankSampah
     {
         return BankSampah::query()->firstOrCreate(

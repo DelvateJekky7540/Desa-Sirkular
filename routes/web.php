@@ -6,6 +6,7 @@ use App\Http\Controllers\BankPenerimaanController;
 use App\Http\Controllers\BankPenimbanganController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MitraKatalogController;
+use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\WargaEstimasiController;
 use App\Http\Controllers\WargaSetoranController;
 use App\Models\BankSampah;
@@ -13,6 +14,11 @@ use App\Models\JenisSampah;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LandingController::class, 'index'])->name('landing');
+
+Route::get('/tracking', [TrackingController::class, 'form'])->name('tracking.form');
+Route::get('/tracking/{kode_setoran}', [TrackingController::class, 'show'])
+    ->where('kode_setoran', '[A-Za-z0-9\-]+')
+    ->name('tracking.show');
 
 Route::get('/login', [AuthController::class, 'form'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.attempt')->middleware('throttle:5,1');

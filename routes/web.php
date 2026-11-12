@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\BankPenerimaanController;
 use App\Http\Controllers\BankPenimbanganController;
+use App\Http\Controllers\MitraKatalogController;
 use App\Http\Controllers\WargaEstimasiController;
 use App\Http\Controllers\WargaSetoranController;
+use App\Models\BankSampah;
+use App\Models\JenisSampah;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,3 +28,12 @@ Route::get('/warga/setor', [WargaSetoranController::class, 'index'])->name('warg
 Route::post('/warga/setor', [WargaSetoranController::class, 'store'])->name('warga.setor.store');
 Route::view('/warga/riwayat', 'warga.riwayat')->name('warga.riwayat');
 Route::view('/warga/edukasi', 'warga.edukasi')->name('warga.edukasi');
+
+Route::get('/mitra/katalog', [MitraKatalogController::class, 'index'])->name('mitra.katalog');
+
+Route::get('/mitra/penawaran', function () {
+    return view('mitra.penawaran', [
+        'jenisTerpilih' => JenisSampah::query()->find((int) request('jenis')),
+        'bankTerpilih' => BankSampah::query()->find((int) request('bank')),
+    ]);
+})->name('mitra.penawaran');

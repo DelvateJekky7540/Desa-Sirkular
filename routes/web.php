@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminPetaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankPenerimaanController;
 use App\Http\Controllers\BankPenimbanganController;
@@ -30,6 +31,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
     ->name('admin.dashboard')
+    ->middleware('auth');
+
+Route::get('/admin/peta', [AdminPetaController::class, 'index'])
+    ->name('admin.peta')
     ->middleware('auth');
 
 Route::get('/bank/penerimaan', [BankPenerimaanController::class, 'index'])->name('bank.penerimaan');

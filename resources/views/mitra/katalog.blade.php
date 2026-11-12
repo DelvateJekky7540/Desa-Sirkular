@@ -6,7 +6,12 @@
 @use('App\Support\Angka')
 
 @php
-    $adaFilter = $filterJenis !== null || $filterBerat !== null;
+    $adaFilter = $filterJenis !== null || $filterBerat !== null || $filterBank !== null;
+
+    $tautanSemuaBank = route('mitra.katalog', array_filter([
+        'jenis_sampah_id' => $filterJenis,
+        'berat_min' => $filterBerat === null ? null : Angka::desimal($filterBerat),
+    ]));
 @endphp
 
 @section('content')
@@ -95,6 +100,15 @@
         </div>
     </form>
 
+    @if ($filterBank !== null)
+        <div class="mt-4 border border-stone border-l-[3px] border-l-moss bg-bone px-4 py-3">
+            <p class="text-[13px] leading-[1.5] text-muted">
+                Menampilkan bahan baku dari <span class="font-medium text-ink">{{ $namaBankTerpilih ?? 'bank sampah terpilih' }}</span>.
+                <a href="{{ $tautanSemuaBank }}" class="font-medium text-forest underline underline-offset-4 hover:decoration-2">Tampilkan semua bank</a>
+            </p>
+        </div>
+    @endif
+
     @if ($katalogError)
         <div role="alert" class="mt-6 rounded-card border border-stone bg-paper px-4 py-5 md:px-5">
             <p class="text-[15px] font-medium leading-[1.5] text-ink">Katalog belum bisa ditampilkan.</p>
@@ -105,7 +119,9 @@
         <div class="mt-6 rounded-card border border-stone bg-paper px-4 py-6 md:px-5">
             <p class="text-[15px] font-medium leading-[1.5] text-ink">Tidak ada bahan baku yang cocok dengan filter ini.</p>
             <p class="mt-1 max-w-[64ch] text-[13px] leading-[1.5] text-muted">
-                @if ($filterJenis !== null && $filterBerat !== null)
+                @if ($filterBank !== null)
+                    Belum ada stok {{ $namaJenisTerpilih ?? 'jenis manapun' }} di {{ $namaBankTerpilih ?? 'bank sampah terpilih' }}{{ $filterBerat !== null ? ' dengan berat di atas '.Angka::kg($filterBerat) : '' }}. Tampilkan semua bank untuk melihat bahan baku lain.
+                @elseif ($filterJenis !== null && $filterBerat !== null)
                     Belum ada stok {{ $namaJenisTerpilih ?? 'jenis ini' }} dengan berat di atas {{ Angka::kg($filterBerat) }}. Turunkan berat minimum atau pilih semua jenis.
                 @elseif ($filterJenis !== null)
                     Belum ada stok {{ $namaJenisTerpilih ?? 'jenis ini' }} yang berstatus sudah ditimbang. Pilih semua jenis untuk melihat bahan baku lain.

@@ -252,3 +252,73 @@ if (formPengajuan) {
         }
     });
 }
+
+const petaBungkus = document.querySelector('[data-peta]');
+
+if (petaBungkus) {
+    const dataPin = document.querySelector('[data-peta-data]');
+    const fallback = document.querySelector('[data-peta-fallback]');
+    const escapeHtml = (teks) => String(teks).replace(/[&<>"']/g, (huruf) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+    }[huruf]));
+
+    const initPeta = () => {
+        if (!window.L || !dataPin) {
+            return;
+        }
+
+        const daftarPin = JSON.parse(dataPin.textContent);
+
+        if (fallback) {
+            fallback.hidden = true;
+        }
+
+        const peta = L.map(petaBungkus, {
+            scrollWheelZoom: false,
+        });
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(peta);
+
+        const batas = [];
+
+        daftarPin.forEach((pin) => {
+            L.marker([pin.lat, pin.lng], {
+                icon: L.divIcon({
+                    className: 'pin-bank',
+                    html: '<svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15 0C6.716 0 0 6.716 0 15c0 11.25 15 27 15 27s15-15.75 15-27C30 6.716 23.284 0 15 0Z" fill="#2E4A3B"/><circle cx="15" cy="15" r="5.5" fill="#F6F4EE"/></svg>',
+                    iconSize: [30, 42],
+                    iconAnchor: [15, 42],
+                    popupAnchor: [0, -40],
+                }),
+                title: pin.nama,
+            }).addTo(peta).bindPopup(
+                '<div class="peta-popup">'
+                + '<p class="peta-popup-judul">' + escapeHtml(pin.nama) + '</p>'
+                + '<p class="peta-popup-alamat">' + escapeHtml(pin.alamat) + '</p>'
+                + '<p class="peta-popup-koordinat">' + escapeHtml(pin.koordinat) + '</p>'
+                + '<a class="peta-popup-tautan" href="' + pin.katalog + '">Lihat katalog</a>'
+                + '</div>',
+                { maxWidth: 280 },
+            );
+
+            batas.push([pin.lat, pin.lng]);
+        });
+
+        if (batas.length > 0) {
+            peta.fitBounds(batas, { padding: [32, 32], maxZoom: 16 });
+        }
+    };
+
+    if (window.L) {
+        initPeta();
+    } else {
+        document.addEventListener('DOMContentLoaded', initPeta);
+    }
+}

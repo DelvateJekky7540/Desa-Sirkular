@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankSampah;
 use App\Models\DetailSetoran;
 use App\Models\JenisSampah;
 use App\Models\Setoran;
@@ -22,19 +23,22 @@ class MitraKatalogController extends Controller
         $data = $request->validate([
             'jenis_sampah_id' => ['nullable', 'integer', 'exists:jenis_sampah,id'],
             'berat_min' => ['nullable', 'numeric', 'min:0'],
+            'bank' => ['nullable', 'integer', 'exists:bank_sampah,id'],
         ], [
             'jenis_sampah_id.exists' => 'Jenis sampah yang dipilih tidak ditemukan.',
             'berat_min.numeric' => 'Berat minimum harus berupa angka, contoh 50.',
             'berat_min.min' => 'Berat minimum tidak boleh negatif.',
+            'bank.exists' => 'Bank sampah yang dipilih tidak ditemukan.',
         ]);
 
         $filterJenis = isset($data['jenis_sampah_id']) ? (int) $data['jenis_sampah_id'] : null;
         $filterBerat = isset($data['berat_min']) ? (float) $data['berat_min'] : null;
+        $filterBank = isset($data['bank']) ? (int) $data['bank'] : null;
 
         $daftarJenis = JenisSampah::query()->aktif()->orderBy('nama_sampah')->get(['id', 'nama_sampah', 'kategori']);
 
         try {
-            $katalog = $this->queryKatalog($filterJenis, $filterBerat);
+            $katalog = $this->queryKatalog($filterJenis, $filterBerat, $filterBank);
             $katalogError = null;
         } catch (Throwable $exception) {
             report($exception);
@@ -47,7 +51,9 @@ class MitraKatalogController extends Controller
             'daftarJenis' => $daftarJenis,
             'filterJenis' => $filterJenis,
             'filterBerat' => $filterBerat,
+            'filterBank' => $filterBank,
             'namaJenisTerpilih' => $daftarJenis->firstWhere('id', $filterJenis)?->nama_sampah,
+            'namaBankTerpilih' => BankSampah::query()->find($filterBank)?->nama_bank,
             'katalogGrup' => $katalog->groupBy('nama_sampah'),
             'ringkasan' => [
                 'jenis' => $katalog->pluck('nama_sampah')->unique()->count(),
@@ -64,7 +70,7 @@ class MitraKatalogController extends Controller
      *
      * @return Collection<int, DetailSetoran>
      */
-    private function queryKatalog(?int $jenisSampahId, ?float $beratMinimum): Collection
+    private function queryKatalog(?int $jenisSampahId, ?float $beratMinimum, ?int $bankId): Collection
     {
         return DetailSetoran::query()
             ->selectRaw('detail_setoran.jenis_sampah_id, jenis_sampah.nama_sampah, jenis_sampah.kategori, setoran.bank_sampah_id, bank_sampah.nama_bank, SUM(detail_setoran.berat) AS total_berat, COUNT(DISTINCT setoran.id) AS jumlah_setoran')
@@ -73,6 +79,7 @@ class MitraKatalogController extends Controller
             ->join('bank_sampah', 'bank_sampah.id', '=', 'setoran.bank_sampah_id')
             ->where('setoran.status', Setoran::STATUS_DITIMBANG)
             ->when($jenisSampahId !== null, fn ($query) => $query->where('detail_setoran.jenis_sampah_id', $jenisSampahId))
+            ->when($bankId !== null, fn ($query) => $query->where('setoran.bank_sampah_id', $bankId))
                         // Batas disisipkan sebagai literal angka: PDO mengirim binding sebagai teks,
             // dan SQLite mengurutkan angka di bawah teks sehingga perbandingan >= selalu salah.
             ->when($beratMinimum !== null, fn ($query) => $query->havingRaw(sprintf(

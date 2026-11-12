@@ -86,6 +86,42 @@ class MitraKatalogTest extends TestCase
             ->assertDontSee('12,5 kg');
     }
 
+    public function test_filter_bank_hanya_menampilkan_stok_bank_terpilih(): void
+    {
+        $bankLain = BankSampah::query()->create([
+            'kode_bank' => 'BS-002',
+            'nama_bank' => 'Bank Sampah Tunas Hijau',
+            'penanggung_jawab' => 'Bu Ratna Sari',
+            'no_hp' => '0812-3456-7892',
+            'alamat' => 'Dusun Krajan',
+            'jam_operasional' => 'Selasa dan Kamis, 08.00-12.00',
+            'status' => BankSampah::STATUS_AKTIF,
+        ]);
+
+        $this->buatSetoran('Bu Siti Rahayu', 12.5, Setoran::STATUS_DITIMBANG);
+        $this->buatSetoran('Pak Budi Santoso', 8, Setoran::STATUS_DITIMBANG, $bankLain);
+
+        $this->get(route('mitra.katalog', ['bank' => $bankLain->id]))
+            ->assertOk()
+            ->assertSee('Menampilkan bahan baku dari')
+            ->assertSee('Bank Sampah Tunas Hijau')
+            ->assertSee('Tampilkan semua bank')
+            ->assertSee('8 kg')
+            ->assertDontSee('12,5 kg');
+    }
+
+    public function test_filter_bank_tidak_valid_menampilkan_pesan_indonesia(): void
+    {
+        $this->from(route('mitra.katalog'))
+            ->get(route('mitra.katalog', ['bank' => 999]))
+            ->assertSessionHasErrors(['bank']);
+
+        $this->followingRedirects()
+            ->from(route('mitra.katalog'))
+            ->get(route('mitra.katalog', ['bank' => 999]))
+            ->assertSee('Bank sampah yang dipilih tidak ditemukan.');
+    }
+
     public function test_isian_filter_tidak_valid_menampilkan_pesan_indonesia(): void
     {
         $this->from(route('mitra.katalog'))

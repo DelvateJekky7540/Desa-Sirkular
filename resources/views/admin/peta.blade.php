@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('title', 'Peta bank sampah, Desa Sirkular')
 @section('description', 'Sebaran bank sampah di Desa Sukamaju untuk monitoring Admin Desa, dengan alamat dan tautan katalog tiap bank.')

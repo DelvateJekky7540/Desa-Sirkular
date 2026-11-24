@@ -1,118 +1,62 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Masuk, Desa Sirkular</title>
-    <meta name="description" content="Masuk ke sistem Desa Sirkular dengan akun yang diberikan pengelola desa.">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    {!! Vite::fonts() !!}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="flex min-h-screen flex-col">
-    <a href="#konten" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-control focus:bg-paper focus:px-4 focus:py-3 focus:text-[14px] focus:font-medium focus:text-forest">
-        Lewati ke isi halaman
-    </a>
+@extends('layouts.app')
 
-    <main id="konten" class="mx-auto flex w-full max-w-[420px] flex-1 flex-col justify-center px-4 py-10">
-        <p class="text-center font-display text-[20px] font-medium leading-none text-forest">
-            <a href="{{ route('landing') }}" class="inline-flex min-h-11 items-center">Desa Sirkular</a>
-        </p>
+@section('content')
+<div class="min-h-screen flex">
+    <!-- Kiri: Foto Pedesaan -->
+    <div class="hidden lg:flex lg:w-1/2 relative">
+        <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1200" 
+             class="absolute inset-0 w-full h-full object-cover" 
+             alt="Pedesaan Hijau">
+        <div class="absolute inset-0 bg-primary/45 flex items-center justify-center p-16">
+            <blockquote class="text-white text-center font-display text-3xl md:text-4xl font-medium">
+                "Sampah desa, rantai yang tidak putus."
+            </blockquote>
+        </div>
+    </div>
 
-        <div class="mt-6 rounded-card border border-stone bg-paper p-5">
-            <h1 class="judul-seksi font-display text-[24px] font-semibold leading-[1.25] text-ink md:text-[26px]">Masuk ke sistem</h1>
-            <p class="mt-2 text-[15px] leading-[1.6] text-muted">Pakai akun yang sudah diberikan pengelola desa.</p>
-
-            @if (auth()->check())
-                <p class="mt-3 border border-stone border-l-[3px] border-l-moss bg-bone px-4 py-3 text-[13px] leading-[1.5] text-ink">
-                    Kamu sedang masuk sebagai {{ auth()->user()->nama }}. Tombol demo di bawah akan menggantikan akun yang aktif.
-                </p>
-            @endif
+    <!-- Kanan: Form Login -->
+    <div class="w-full lg:w-1/2 bg-base flex items-center justify-center p-8 lg:p-16">
+        <div class="w-full max-w-md">
+            <a href="{{ route('landing') }}" class="logo mb-10 inline-block">DESA-SIRKULAR</a>
+            
+            <h1 class="section-title mb-3">Masuk ke sistem</h1>
+            <p class="text-muted mb-8">Pakai akun yang sudah diberikan pengelola desa.</p>
 
             @if ($errors->any())
-                <div role="alert" class="mt-4 border border-stone border-l-[3px] border-l-brick bg-bone px-4 py-3">
-                    <p class="text-[14px] font-medium leading-[1.5] text-ink">Masuk belum berhasil. Periksa isian berikut.</p>
-                    <ul class="mt-1 list-disc space-y-0.5 pl-4 text-[13px] leading-[1.5] text-muted">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="bg-red-50 border border-red-300 p-4 rounded-lg mb-6">
+                    @foreach ($errors->all() as $error)
+                        <p class="text-red-700 text-sm">{{ $error }}</p>
+                    @endforeach
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('login.attempt') }}" class="mt-4 space-y-3">
+            <form method="POST" action="{{ route('login.attempt') }}">
                 @csrf
-
-                <div>
+                <div class="form-group">
                     <label for="email" class="label-form">Email</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autocomplete="username"
-                        required
-                        value="{{ old('email') }}"
-                        @error('email') aria-invalid="true" aria-describedby="error-email" @enderror
-                        class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('email') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
-                    >
-                    @error('email')
-                        <p id="error-email" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
-                    @enderror
+                    <input id="email" name="email" type="email" required class="input-text" placeholder="alamat@email.com">
                 </div>
-
-                <div>
+                
+                <div class="form-group">
                     <label for="password" class="label-form">Kata sandi</label>
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        autocomplete="current-password"
-                        required
-                        @error('password') aria-invalid="true" aria-describedby="error-password" @enderror
-                        class="mt-2 h-11 w-full rounded-control border bg-paper px-3 text-[15px] text-ink @error('password') border-brick hover:border-brick focus:border-brick @else border-stone hover:border-moss focus:border-forest @enderror"
-                    >
-                    @error('password')
-                        <p id="error-password" class="mt-1 text-[12px] leading-[1.4] text-brick">{{ $message }}</p>
-                    @enderror
+                    <input id="password" name="password" type="password" required class="input-text" placeholder="••••••••">
                 </div>
 
-                <div class="pt-1">
-                    <button
-                        type="submit"
-                        class="inline-flex h-12 w-full items-center justify-center rounded-control bg-forest px-6 text-[15px] font-medium text-white transition-colors duration-150 hover:bg-forest-hover active:translate-y-px"
-                    >
-                        Masuk
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-primary w-full mt-4">Masuk</button>
             </form>
 
-            <div class="mt-6 border-t-2 border-t-forest pt-5">
-                <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Masuk cepat, akun demo</p>
-                <p class="mt-1 text-[12px] leading-[1.4] text-muted">Sekali klik langsung masuk ke halaman peran terkait, tanpa mengisi kata sandi.</p>
-
-                <div class="mt-3 grid grid-cols-2 gap-2">
-                    @foreach ([['peran' => 'admin', 'label' => 'Admin Desa'], ['peran' => 'bank', 'label' => 'Bank Sampah'], ['peran' => 'warga', 'label' => 'Warga'], ['peran' => 'mitra', 'label' => 'Mitra']] as $demo)
-                        <form method="POST" action="{{ route('login.demo', $demo['peran']) }}">
+            <div class="mt-12 pt-8 border-t border-gray-200">
+                <p class="mono-label text-sm text-muted uppercase mb-4">Masuk cepat, akun demo</p>
+                <div class="grid grid-cols-2 gap-3">
+                    @foreach (['admin' => 'Admin Desa', 'bank' => 'Bank Sampah', 'warga' => 'Warga', 'mitra' => 'Mitra'] as $peran => $label)
+                        <form method="POST" action="{{ route('login.demo', $peran) }}">
                             @csrf
-                            <button
-                                type="submit"
-                                class="inline-flex h-11 w-full items-center justify-center rounded-control border border-stone bg-paper px-3 text-[14px] font-medium leading-none text-ink transition-colors duration-150 hover:border-forest hover:bg-forest hover:text-bone active:translate-y-px"
-                            >
-                                {{ $demo['label'] }}
-                            </button>
+                            <button type="submit" class="btn btn-outline w-full text-sm py-2">{{ $label }}</button>
                         </form>
                     @endforeach
                 </div>
-
-                <p class="mt-3 text-[12px] leading-[1.4] text-muted">
-                    Mau masuk manual sebagai Petugas? Kata sandi semua akun demo: password.
-                </p>
             </div>
         </div>
-
-        <p class="mt-4 text-center text-[13px] leading-[1.4] text-muted">
-            <a href="{{ route('landing') }}" class="tautan-garis font-medium text-forest">Kembali ke halaman utama</a>
-        </p>
-    </main>
-</body>
-</html>
+    </div>
+</div>
+@endsection

@@ -1,170 +1,94 @@
-@extends('layouts.bank')
+@extends('layouts.app')
 
-@section('title', 'Antrean penimbangan, '.($bankAktif?->nama_bank ?? 'Bank Sampah'))
-@section('description', 'Antrean setoran sampah yang menunggu ditimbang untuk Pengelola '.($bankAktif?->nama_bank ?? 'Bank Sampah').', Desa Sukamaju.')
-
-@use('App\Support\Angka')
-
+@section('title', 'Antrean Penimbangan | DESA-SIRKULAR')
 @php
-    $gagalId = session('penimbangan_id');
-    $gagalAdaDiAntrean = $gagalId !== null && $antrean->contains(fn ($setoran) => $setoran->id === (int) $gagalId);
+    $antrean = [
+        (object)['id' => 1, 'created_at' => now()->subHours(2), 'masyarakat' => (object)['user' => (object)['nama' => 'Budi Santoso']], 'total_berat' => 12.5, 'total_nilai' => 437500, 'detailSampah' => [array('jenisSampah' => array('nama_sampah' => 'Kertas', 'kategori' => 'Organik'))]],
+        (object)['id' => 2, 'created_at' => now()->subHours(1), 'masyarakat' => (object)['user' => (object)['nama' => 'Siti Nurhalimah']], 'total_berat' => 8.3, 'total_nilai' => 290500, 'detailSampah' => [array('jenisSampah' => array('nama_sampah' => 'Plastik', 'kategori' => 'Anorganik'))]],
+        (object)['id' => 3, 'created_at' => now()->subMinutes(30), 'masyarakat' => (object)['user' => (object)['nama' => 'Ahmad Fauzi']], 'total_berat' => 15.2, 'total_nilai' => 532000, 'detailSampah' => [array('jenisSampah' => array('nama_sampah' => 'Logam', 'kategori' => 'Anorganik'))]],
+    ];
+    $antreanError = false;
+    $ringkasan = [
+        'jumlah' => 5,
+        'berat' => 35.8,
+        'nilai' => 1256000,
+        'sudahDitimbangHariIni' => 3
+    ];
+    $gagalId = null;
 @endphp
 
 @section('content')
+<div style="max-width: 1200px; margin: 0 auto;">
     @if (session('status'))
-        <div role="status" class="mb-6 border border-stone border-l-[3px] border-l-berhasil bg-paper px-4 py-3">
-            <p class="text-[14px] leading-[1.6] text-ink">{{ session('status') }}</p>
+        <div style="background: #D1FAE5; border: 1px solid #34D399; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+            <p style="color: #065F46;">{{ session('status') }}</p>
         </div>
     @endif
 
     @if (session('peringatan'))
-        <div role="status" class="mb-6 border border-stone border-l-[3px] border-l-mustard bg-paper px-4 py-3">
-            <p class="text-[14px] leading-[1.6] text-ink">{{ session('peringatan') }}</p>
+        <div style="background: #FEF3C7; border: 1px solid #F59E0B; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+            <p style="color: #92400E;">{{ session('peringatan') }}</p>
         </div>
     @endif
 
-    @if ($errors->any() && ! $gagalAdaDiAntrean)
-        <div role="alert" class="mb-6 border border-stone border-l-[3px] border-l-brick bg-paper px-4 py-3">
-            <p class="text-[14px] font-medium leading-[1.5] text-ink">Hasil timbang belum tersimpan. Periksa isian berikut.</p>
-            <ul class="mt-1 list-disc space-y-0.5 pl-4 text-[13px] leading-[1.5] text-muted">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <div class="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-t-2 border-t-forest border-b border-b-stone pt-4 pb-4">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 32px; border-bottom: 1px solid var(--border); padding-bottom: 32px;">
         <div>
-            <p class="mb-2 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Antrean penimbangan, Desa Sukamaju</p>
-            <h1 class="font-display text-[26px] font-semibold leading-[1.25] text-forest md:text-[32px] md:leading-[1.2]">Antrean penimbangan</h1>
-            <p class="mt-2 max-w-[64ch] text-[15px] leading-[1.6] text-muted">
+            <p style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;">Antrean penimbangan, Desa Sukamaju</p>
+            <h1 class="section-title" style="font-size: 32px; margin-bottom: 16px;">Antrean penimbangan</h1>
+            <p style="font-size: 15px; color: var(--muted); line-height: 1.6;">
                 Setoran yang menunggu timbang, dari yang paling lama masuk. Pilih satu baris, masukkan angka timbangan, lalu simpan.
             </p>
         </div>
-        <p class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">
+        <p style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--muted);">
             {{ now()->locale('id')->translatedFormat('l, j F Y') }}
         </p>
     </div>
 
-    @if (! $antreanError)
-        <dl class="mt-6 flex flex-wrap items-baseline gap-x-8 gap-y-2 border-b border-stone pb-4">
-            <div class="flex items-baseline gap-2">
-                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Menunggu timbang</dt>
-                <dd class="font-mono text-[20px] font-medium leading-none text-ink">{{ $ringkasan['jumlah'] }} setoran</dd>
-            </div>
-            <div class="flex items-baseline gap-2">
-                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Berat tercatat</dt>
-                <dd class="font-mono text-[20px] font-medium leading-none text-ink">{{ Angka::kg($ringkasan['berat']) }}</dd>
-            </div>
-            <div class="flex items-baseline gap-2">
-                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Perkiraan nilai</dt>
-                <dd class="font-mono text-[24px] font-medium leading-none text-ochre">{{ Angka::rupiah($ringkasan['nilai']) }}</dd>
-            </div>
-            <div class="flex items-baseline gap-2 sm:ml-auto">
-                <dt class="font-mono text-[12px] uppercase leading-[1.4] tracking-[0.08em] text-muted">Sudah ditimbang hari ini</dt>
-                <dd class="font-mono text-[14px] leading-[1.4] text-ink">{{ $sudahDitimbangHariIni }} setoran</dd>
-            </div>
-        </dl>
-    @endif
-
     @if ($antreanError)
-        <div role="alert" class="mt-6 border border-stone bg-paper px-4 py-5 md:px-5">
-            <p class="text-[15px] font-medium leading-[1.5] text-ink">Antrean belum bisa ditampilkan.</p>
-            <p class="mt-1 text-[13px] leading-[1.5] text-muted">{{ $antreanError }}</p>
-            <a href="{{ route('bank.penimbangan') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">Muat ulang halaman</a>
+        <div class="card-app" style="margin-bottom: 24px;">
+            <p style="color: var(--ink); font-weight: 500; margin-bottom: 8px;">Antrean belum bisa ditampilkan.</p>
+            <p style="color: var(--muted);">{{ $antreanError }}</p>
+            <a href="{{ route('bank.penimbangan') }}" class="btn btn-primary" style="margin-top: 16px;">Muat ulang halaman</a>
         </div>
     @elseif ($antrean->isEmpty())
-        <div class="mt-6 border border-stone bg-paper px-4 py-6 md:px-5">
-            <p class="text-[15px] font-medium leading-[1.5] text-ink">Antrean penimbangan kosong.</p>
-            <p class="mt-1 max-w-[64ch] text-[13px] leading-[1.5] text-muted">
+        <div class="card-app" style="margin-bottom: 24px;">
+            <p style="color: var(--ink); font-weight: 500; margin-bottom: 8px;">Antrean penimbangan kosong.</p>
+            <p style="color: var(--muted);">
                 Semua setoran sudah ditimbang. Setoran baru muncul di sini setelah dicatat di halaman Catat setoran.
             </p>
-            <a href="{{ route('bank.penerimaan') }}" class="tautan-garis mt-3 inline-flex h-11 items-center text-[13px] font-medium text-forest">Catat setoran baru</a>
+            <a href="{{ route('bank.penerimaan') }}" class="btn btn-primary" style="margin-top: 16px;">Catat setoran baru</a>
         </div>
     @else
-        <div class="mt-4 hidden border-t-2 border-t-forest pt-4 md:block">
-            <table class="w-full text-left text-[14px]">
-                <caption class="sr-only">Setoran sampah yang menunggu ditimbang, urut dari yang paling lama masuk</caption>
-                <thead>
-                    <tr class="border-b border-stone">
-                        <th scope="col" class="py-2 pr-3 text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Masuk</th>
-                        <th scope="col" class="py-2 pr-3 text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Warga</th>
-                        <th scope="col" class="py-2 pr-3 text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Jenis</th>
-                        <th scope="col" class="py-2 pl-3 text-right text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Berat tercatat</th>
-                        <th scope="col" class="py-2 pl-3 text-right text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Nilai perkiraan</th>
-                        <th scope="col" class="py-2 pl-3 text-right text-[13px] font-medium uppercase leading-[1.4] tracking-[0.02em] text-muted">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($antrean as $setoran)
-                        @php
-                            $detail = $setoran->detailSampah->first();
-                            $tertunda = $setoran->created_at->lt(now()->subDay());
-                        @endphp
-                        <tr class="h-12 border-b border-stone align-middle transition-colors hover:bg-[#F0EDE4]">
-                            <td class="py-2 pr-3 font-mono text-[12px] uppercase leading-[1.4] tracking-[0.06em] text-muted @if ($tertunda) border-l-[3px] border-l-mustard @endif">
-                                @if ($tertunda)
-                                    <span class="sr-only">Menunggu lebih dari sehari, </span>
-                                @endif
-                                {{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}
-                            </td>
-                            <td class="py-2 pr-3 text-[14px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</td>
-                            <td class="py-2 pr-3 text-[13px] leading-[1.4] text-muted">{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}</td>
-                            <td class="py-2 pl-3 text-right font-mono text-[15px] font-medium leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</td>
-                            <td class="py-2 pl-3 text-right font-mono text-[15px] font-medium leading-[1.4] text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</td>
-                            <td class="py-2 pl-3 text-right">
-                                <button
-                                    type="button"
-                                    data-buka-timbang="dialog-timbang-{{ $setoran->id }}"
-                                    aria-haspopup="dialog"
-                                    class="inline-flex h-11 items-center justify-center rounded-control border border-forest px-4 text-[13px] font-medium text-forest transition-colors duration-150 hover:bg-forest hover:text-bone active:translate-y-px"
-                                >
-                                    Timbang
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="card-app">
+          <table class="table-data">
+              <thead>
+                  <tr>
+                      <th style="width: 150px;">Masuk</th>
+                      <th style="width: 180px;">Warga</th>
+                      <th style="width: 140px;">Jenis</th>
+                      <th style="width: 100px; text-align: right;">Berat tercatat</th>
+                      <th style="width: 120px; text-align: right;">Nilai perkiraan</th>
+                      <th style="width: 100px; text-align: right;">Aksi</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @foreach ($antrean as $setoran)
+                      <tr>
+                          <td style="font-family: var(--font-mono); font-size: 13px; color: var(--muted);">{{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}</td>
+                          <td style="font-weight: 500;">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</td>
+                          <td style="color: var(--muted);">{{ $setoran->detailSampah->first()?->jenisSampah?->nama_sampah ?? 'Campuran' }}</td>
+                          <td style="text-align: right; font-family: var(--font-mono); font-weight: 500;">{{ number_format($setoran->total_berat, 1) }} kg</td>
+                          <td style="text-align: right; font-family: var(--font-mono); font-weight: 500;">Rp {{ number_format($setoran->total_nilai, 0) }}</td>
+                          <td style="text-align: right;">
+                              <button style="background: var(--primary); color: #FFFFFF; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; cursor: pointer;">
+                                  Timbang
+                              </button>
+                          </td>
+                      </tr>
+                  @endforeach
+              </tbody>
+          </table>
         </div>
-
-        <ul class="mt-4 border-t-2 border-t-forest pt-4 md:hidden">
-            @foreach ($antrean as $setoran)
-                @php
-                    $detail = $setoran->detailSampah->first();
-                    $tertunda = $setoran->created_at->lt(now()->subDay());
-                @endphp
-                <li class="border-b border-stone py-4 transition-colors hover:bg-[#F0EDE4] @if ($tertunda) border-l-[3px] border-l-mustard pl-3 @endif">
-                    @if ($tertunda)
-                        <p class="font-mono text-[11px] uppercase leading-[1.4] tracking-[0.06em] text-muted">Menunggu lebih dari sehari</p>
-                    @endif
-                    <div class="flex items-baseline justify-between gap-3">
-                        <p class="text-[15px] font-medium leading-[1.4] text-ink">{{ $setoran->masyarakat?->user?->nama ?? 'Warga' }}</p>
-                        <p class="font-mono text-[15px] font-medium leading-[1.4] text-ink">{{ Angka::kg($setoran->total_berat) }}</p>
-                    </div>
-                    <div class="mt-0.5 flex items-baseline justify-between gap-3 text-[12px] leading-[1.4] text-muted">
-                        <p class="font-mono text-[11px] uppercase tracking-[0.08em]">{{ $detail?->jenisSampah?->nama_sampah ?? 'Campuran' }}, {{ $setoran->created_at->isToday() ? $setoran->created_at->format('H:i') : $setoran->created_at->locale('id')->translatedFormat('j M, H:i') }}</p>
-                        <p class="font-mono text-[15px] font-medium text-ink">{{ Angka::rupiah($setoran->total_nilai) }}</p>
-                    </div>
-                    <button
-                        type="button"
-                        data-buka-timbang="dialog-timbang-{{ $setoran->id }}"
-                        aria-haspopup="dialog"
-                        class="mt-2 inline-flex h-11 w-full items-center justify-center rounded-control border border-forest px-4 text-[14px] font-medium text-forest transition-colors duration-150 hover:bg-forest hover:text-bone active:translate-y-px"
-                    >
-                        Timbang
-                    </button>
-                </li>
-            @endforeach
-        </ul>
-
-        @foreach ($antrean as $setoran)
-            @include('bank.partials.dialog-timbang', ['setoran' => $setoran, 'gagalId' => $gagalId])
-        @endforeach
-
-        @if ($gagalAdaDiAntrean)
-            <p data-buka-otomatis="dialog-timbang-{{ $gagalId }}" hidden></p>
-        @endif
     @endif
+</div>
 @endsection
